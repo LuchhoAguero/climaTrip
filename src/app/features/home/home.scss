@@ -1,0 +1,193 @@
+$accent: #4fc3f7;
+$text-primary: #f5f9ff;
+$text-secondary: #c9d6e2;
+$surface: #0d1b2a;
+
+.home {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4rem;
+  min-height: calc(100vh - 64px);
+  padding: 3rem 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+
+  &__content {
+    flex: 1;
+    max-width: 580px;
+  }
+
+  &__label {
+    display: inline-block;
+    padding: 0.35rem 0.85rem;
+    margin-bottom: 1.25rem;
+    background-color: rgba(79, 195, 247, 0.1);
+    border: 1px solid rgba(79, 195, 247, 0.25);
+    border-radius: 100px;
+    color: $accent;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  &__title {
+    margin: 0 0 1.25rem;
+    font-size: clamp(2rem, 4vw, 3.25rem);
+    font-weight: 800;
+    line-height: 1.15;
+    letter-spacing: -0.03em;
+    color: $text-primary;
+
+    // Highlight subtle gradient on last word area
+    background: linear-gradient(135deg, $text-primary 40%, $accent 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  &__description {
+    margin: 0 0 2.25rem;
+    font-size: 1.05rem;
+    line-height: 1.7;
+    color: $text-secondary;
+  }
+
+  &__actions {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  // Decorative visual side
+  &__visual {
+    flex: 1;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 320px;
+    max-width: 420px;
+  }
+
+  &__globe {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 200px;
+    height: 200px;
+  }
+
+  &__globe-core {
+    font-size: 6rem;
+    line-height: 1;
+    position: relative;
+    z-index: 1;
+    filter: drop-shadow(0 0 24px rgba(79, 195, 247, 0.35));
+  }
+
+  &__globe-ring {
+    position: absolute;
+    border-radius: 50%;
+    border: 1px solid rgba(79, 195, 247, 0.15);
+
+    &--1 {
+      width: 200px;
+      height: 200px;
+    }
+
+    &--2 {
+      width: 260px;
+      height: 260px;
+      border-color: rgba(79, 195, 247, 0.08);
+    }
+
+    &--3 {
+      width: 320px;
+      height: 320px;
+      border-color: rgba(79, 195, 247, 0.05);
+    }
+  }
+
+  // Floating weather cards
+  &__weather-card {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.55rem 0.9rem;
+    background-color: rgba(13, 27, 42, 0.85);
+    border: 1px solid rgba(79, 195, 247, 0.2);
+    border-radius: 10px;
+    backdrop-filter: blur(8px);
+    white-space: nowrap;
+
+    &--1 {
+      top: 10%;
+      right: 0;
+    }
+
+    &--2 {
+      bottom: 30%;
+      left: -10%;
+    }
+
+    &--3 {
+      bottom: 10%;
+      right: 5%;
+    }
+  }
+
+  .weather-card__icon {
+    font-size: 1.1rem;
+  }
+
+  .weather-card__text {
+    font-size: 0.8rem;
+    color: $text-secondary;
+    font-weight: 500;
+  }
+}
+
+// Responsive
+@media (max-width: 900px) {
+  .home {
+    flex-direction: column;
+    text-align: center;
+    gap: 2.5rem;
+    padding: 2.5rem 1.5rem;
+
+    &__content {
+      max-width: 100%;
+    }
+
+    &__actions {
+      justify-content: center;
+    }
+
+    &__visual {
+      min-height: 260px;
+      max-width: 300px;
+    }
+
+    &__weather-card--2 {
+      left: 0;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .home {
+    padding: 1.75rem 1rem;
+
+    &__visual {
+      min-height: 220px;
+    }
+
+    &__globe-core {
+      font-size: 4.5rem;
+    }
+  }
+}

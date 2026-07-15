@@ -1,0 +1,154 @@
+// Variables locales del navbar
+$navbar-height: 64px;
+$navbar-bg: #0d1b2a;
+$navbar-border: rgba(79, 195, 247, 0.12);
+$accent: #4fc3f7;
+$text-primary: #f5f9ff;
+$text-secondary: #c9d6e2;
+
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: $navbar-height;
+  padding: 0 1.5rem;
+  background-color: $navbar-bg;
+  border-bottom: 1px solid $navbar-border;
+  backdrop-filter: blur(8px);
+
+  &__brand {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+    color: $text-primary;
+    font-size: 1.25rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    transition: color 0.2s ease;
+
+    &:hover {
+      color: $accent;
+    }
+  }
+
+  &__brand-icon {
+    font-size: 1.5rem;
+    line-height: 1;
+  }
+
+  &__brand-text {
+    background: linear-gradient(135deg, $text-primary 0%, $accent 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  &__toggle {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    padding: 6px;
+    background: transparent;
+    border: 1px solid $navbar-border;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: border-color 0.2s ease;
+
+    &:hover {
+      border-color: $accent;
+    }
+  }
+
+  &__toggle-bar {
+    display: block;
+    width: 22px;
+    height: 2px;
+    background-color: $text-primary;
+    border-radius: 2px;
+    transition: background-color 0.2s ease;
+  }
+
+  &__links {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+
+    a {
+      display: inline-block;
+      padding: 0.45rem 0.85rem;
+      text-decoration: none;
+      color: $text-secondary;
+      font-size: 0.9rem;
+      font-weight: 500;
+      border-radius: 6px;
+      transition: color 0.2s ease, background-color 0.2s ease;
+
+      &:hover {
+        color: $text-primary;
+        background-color: rgba(255, 255, 255, 0.06);
+      }
+
+      &.active {
+        color: $accent;
+        background-color: rgba(79, 195, 247, 0.1);
+      }
+    }
+  }
+
+  &__cta {
+    margin-left: 0.5rem;
+    padding: 0.45rem 1rem !important;
+    border: 1px solid rgba(79, 195, 247, 0.4) !important;
+    color: $accent !important;
+
+    &:hover {
+      background-color: rgba(79, 195, 247, 0.12) !important;
+      border-color: $accent !important;
+    }
+
+    &.active {
+      background-color: rgba(79, 195, 247, 0.15) !important;
+    }
+  }
+}
+
+// Responsive
+@media (max-width: 768px) {
+  .navbar {
+    flex-wrap: wrap;
+    height: auto;
+    padding: 0.75rem 1.25rem;
+
+    &__toggle {
+      display: flex;
+    }
+
+    &__links {
+      display: none;
+      flex-direction: column;
+      align-items: stretch;
+      width: 100%;
+      padding: 0.75rem 0;
+      gap: 0.15rem;
+      border-top: 1px solid $navbar-border;
+      margin-top: 0.75rem;
+
+      &--open {
+        display: flex;
+      }
+
+      a {
+        padding: 0.7rem 0.85rem;
+        font-size: 0.95rem;
+      }
+    }
+
+    &__cta {
+      margin-left: 0 !important;
+    }
+  }
+}

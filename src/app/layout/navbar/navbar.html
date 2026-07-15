@@ -1,0 +1,31 @@
+<header class="navbar">
+  <a class="navbar__brand" routerLink="/inicio" aria-label="ClimaTrip - Inicio">
+    <span class="navbar__brand-icon">🌤</span>
+    <span class="navbar__brand-text">ClimaTrip</span>
+  </a>
+
+  <button
+    class="navbar__toggle"
+    (click)="toggleMenu()"
+    [attr.aria-expanded]="menuOpen()"
+    aria-controls="navbar-links"
+    aria-label="Alternar menú de navegación"
+  >
+    <span class="navbar__toggle-bar"></span>
+    <span class="navbar__toggle-bar"></span>
+    <span class="navbar__toggle-bar"></span>
+  </button>
+
+  <nav
+    id="navbar-links"
+    class="navbar__links"
+    [class.navbar__links--open]="menuOpen()"
+    aria-label="Navegación principal"
+  >
+    <a routerLink="/inicio" routerLinkActive="active" (click)="closeMenu()">Inicio</a>
+    <a routerLink="/buscar" routerLinkActive="active" (click)="closeMenu()">Buscar</a>
+    <a routerLink="/mis-ciudades" routerLinkActive="active" (click)="closeMenu()">Mis ciudades</a>
+    <a routerLink="/estadisticas" routerLinkActive="active" (click)="closeMenu()">Estadísticas</a>
+    <a routerLink="/login" routerLinkActive="active" class="navbar__cta" (click)="closeMenu()">Iniciar sesión</a>
+  </nav>
+</header>
