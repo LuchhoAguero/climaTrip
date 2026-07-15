@@ -76,25 +76,14 @@
       (click)="closeMenu()"
     >Buscar</a>
 
-    <a
-      routerLink="/mis-ciudades"
-      routerLinkActive="active"
-      class="navbar__link"
-      (click)="closeMenu()"
-    >Mis ciudades</a>
-
-    <a
-      routerLink="/estadisticas"
-      routerLinkActive="active"
-      class="navbar__link"
-      (click)="closeMenu()"
-    >Estadísticas</a>
-
-    <a
-      routerLink="/login"
-      routerLinkActive="active"
-      class="navbar__link navbar__link--cta"
-      (click)="closeMenu()"
-    >Iniciar sesión</a>
+    @if (user(); as currentUser) {
+      <a routerLink="/mis-ciudades" routerLinkActive="active" class="navbar__link" (click)="closeMenu()">Mis ciudades</a>
+      <a routerLink="/estadisticas" routerLinkActive="active" class="navbar__link" (click)="closeMenu()">Estadísticas</a>
+      <span class="navbar__user" [title]="currentUser.email ?? ''">{{ currentUser.displayName || currentUser.email }}</span>
+      <button class="navbar__link navbar__link--cta" type="button" (click)="logout()">Cerrar sesión</button>
+    } @else {
+      <a routerLink="/login" routerLinkActive="active" class="navbar__link" (click)="closeMenu()">Iniciar sesión</a>
+      <a routerLink="/registro" routerLinkActive="active" class="navbar__link navbar__link--cta" (click)="closeMenu()">Crear cuenta</a>
+    }
   </nav>
 </header>

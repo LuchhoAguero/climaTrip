@@ -1,5 +1,6 @@
-import { Component, HostListener, signal } from '@angular/core';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import { Component, HostListener, inject, signal } from '@angular/core';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
+import { AuthService } from '../../core/services/auth.service';
 
 @Component({
   selector: 'app-navbar',
@@ -8,8 +9,11 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
   styleUrl: './navbar.scss',
 })
 export class Navbar {
+  private readonly auth = inject(AuthService);
+  private readonly router = inject(Router);
   protected menuOpen = signal(false);
   protected scrolled = signal(false);
+  protected user = this.auth.user;
 
   @HostListener('window:scroll', [])
   onWindowScroll(): void {
@@ -29,5 +33,14 @@ export class Navbar {
 
   protected closeMenu(): void {
     this.menuOpen.set(false);
+  }
+
+  protected logout(): void {
+    this.auth.logout().subscribe({
+      next: () => {
+        this.closeMenu();
+        void this.router.navigate(['/inicio']);
+      },
+    });
   }
 }

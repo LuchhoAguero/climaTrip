@@ -1,30 +1,13 @@
-<div class="page-container">
-  <div class="page-card">
-
-    <div class="page-card__icon-wrap" aria-hidden="true">
-      <!-- Gráfico de barras -->
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
-           stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"
-           width="28" height="28">
-        <line x1="18" y1="20" x2="18" y2="10"/>
-        <line x1="12" y1="20" x2="12" y2="4"/>
-        <line x1="6"  y1="20" x2="6"  y2="14"/>
-        <line x1="2"  y1="20" x2="22" y2="20"/>
-      </svg>
-    </div>
-
-    <span class="page-card__status">En desarrollo</span>
-
-    <h1 class="page-card__title">Estadísticas</h1>
-
-    <p class="page-card__description">
-      Este panel mostrará gráficos generados desde los datos guardados en Firestore.
-    </p>
-
-    <div class="page-card__actions">
-      <a routerLink="/mis-ciudades" class="btn btn--primary">Ver mis ciudades</a>
-      <a routerLink="/inicio" class="btn btn--secondary">Volver al inicio</a>
-    </div>
-
+<section class="statistics">
+  <div class="container statistics__inner">
+    <header><span class="section-label">Resumen de viaje</span><h1>Estadísticas</h1><p>Una vista dinámica de los destinos que guardaste.</p></header>
+    @if (loading()) { <p class="state-message" aria-live="polite">Calculando estadísticas...</p> }
+    @else if (error()) { <p class="state-message state-message--error" role="alert">{{ error() }}</p> }
+    @else if (cities().length === 0) { <div class="empty-state"><h2>Todavía no hay datos para mostrar.</h2><p>Guardá una ciudad para empezar a ver tus estadísticas.</p><a routerLink="/buscar" class="btn btn--primary">Buscar ciudades</a></div> }
+    @else {
+      <div class="metrics"><article><span>Total</span><strong>{{ cities().length }}</strong><p>ciudades guardadas</p></article><article><span>Me interesa</span><strong>{{ statusCounts().interested }}</strong><p>destinos por explorar</p></article><article><span>Planificadas</span><strong>{{ statusCounts().planned }}</strong><p>viajes en agenda</p></article><article><span>Visitadas</span><strong>{{ statusCounts().visited }}</strong><p>destinos recorridos</p></article><article><span>Países</span><strong>{{ countryCount() }}</strong><p>países distintos</p></article><article><span>Temperatura ideal</span><strong>{{ averageTemperature() === null ? '—' : averageTemperature()!.toFixed(1) + ' °C' }}</strong><p>promedio preferido</p></article></div>
+      @if (nextPlanned(); as city) { <p class="next-city">Próxima ciudad planificada: <strong>{{ city.name }}</strong> · {{ city.plannedDate }}</p> }
+      <div class="charts"><article class="chart-card"><h2>Ciudades por estado</h2><div class="chart-card__canvas"><canvas #statusCanvas aria-label="Gráfico de ciudades por estado"></canvas></div></article><article class="chart-card"><h2>Ciudades por país</h2><div class="chart-card__canvas"><canvas #countryCanvas aria-label="Gráfico de ciudades por país"></canvas></div></article></div>
+    }
   </div>
-</div>
+</section>

@@ -1,2 +1,26 @@
-// city-search — página provisional
-// Los estilos base están en styles.scss (.page-container, .page-card)
+.city-search { min-height: 100%; padding: 8rem 0 5rem; }
+.city-search__inner { max-width: 1040px; }
+.city-search__header { max-width: 650px; margin-bottom: 2rem; }
+.city-search__header h1 { font-size: clamp(2rem, 5vw, 3.4rem); }
+.city-search__header p { margin-top: 0.75rem; }
+.search-box { position: relative; display: flex; max-width: 760px; }
+.search-box input { width: 100%; padding: 1rem 3rem 1rem 1rem; color: var(--color-text); background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-md); }
+.search-box__clear { position: absolute; right: 0.55rem; top: 0.5rem; width: 2.25rem; height: 2.25rem; border: 0; border-radius: var(--radius-sm); background: transparent; color: var(--color-text-muted); cursor: pointer; font-size: 1.5rem; }
+.city-search__live { min-height: 1.6rem; margin: 0.65rem 0 1.5rem; font-size: 0.9rem; }
+.filters { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)) auto; gap: 0.8rem; align-items: end; padding: 1rem; margin-bottom: 1.5rem; background: var(--color-bg-soft); border: 1px solid var(--color-border); border-radius: var(--radius-md); }
+.filters__field { display: grid; gap: 0.35rem; }
+.filters label { color: var(--color-text-muted); font-size: 0.78rem; font-weight: 700; }
+.filters input, .filters select { min-width: 0; padding: 0.65rem; color: var(--color-text); background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-sm); }
+.results { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+.city-card { display: grid; gap: 1rem; padding: 1.25rem; background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-md); }
+.city-card h2 { margin-top: 0.25rem; font-size: 1.25rem; }
+.city-card__code { color: var(--color-accent); font-size: 0.72rem; font-weight: 800; letter-spacing: 0.08em; }
+.city-card__meta { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.75rem; margin: 0; }
+.city-card__meta div { min-width: 0; }
+.city-card__meta dt { color: var(--color-text-muted); font-size: 0.75rem; }
+.city-card__meta dd { margin: 0.15rem 0 0; overflow-wrap: anywhere; color: var(--color-text); font-size: 0.84rem; }
+.city-card .btn { justify-self: start; }
+.state-message { padding: 1rem; background: var(--color-bg-soft); border: 1px solid var(--color-border); border-radius: var(--radius-md); }
+.state-message--error { color: var(--color-danger); border-color: color-mix(in srgb, var(--color-danger) 35%, transparent); }
+@media (max-width: 860px) { .filters { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 600px) { .city-search { padding-top: 6.5rem; } .results { grid-template-columns: 1fr; } .filters { grid-template-columns: 1fr; } .filters .btn { width: 100%; } }

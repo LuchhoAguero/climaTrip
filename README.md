@@ -1,59 +1,93 @@
 # ClimaTrip
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.9.
+SPA académica para buscar destinos, consultar el clima y organizar ciudades favoritas. Usa Open-Meteo para geocoding y pronóstico, Firebase Authentication para cuentas y Cloud Firestore para las ciudades guardadas.
 
-## Development server
+## Tecnologías
 
-To start a local development server, run:
+- Angular 21 con componentes standalone y lazy loading
+- Reactive Forms, HttpClient y RxJS
+- Open-Meteo Geocoding y Forecast API
+- Firebase Authentication y Cloud Firestore mediante AngularFire
+- Chart.js para estadísticas
+- SCSS responsive
 
-```bash
-ng serve
-```
+## Requisitos e instalación
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+Requiere Node.js 20 o superior y npm.
 
 ```bash
-ng generate --help
+npm install
+npm start
 ```
 
-## Building
+La aplicación queda disponible en `http://localhost:4200/`.
 
-To build the project run:
+Para validar producción:
 
 ```bash
-ng build
+npx ng build
+npm test -- --run
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+## Configuración de Firebase
 
-## Running unit tests
+1. Creá un proyecto en Firebase Console.
+2. Agregá una aplicación web y copiá su objeto de configuración.
+3. En Authentication, activá el proveedor **Correo electrónico/Contraseña**.
+4. En Firestore Database, creá la base en modo producción.
+5. Reemplazá los seis valores `REEMPLAZAR` de `src/environments/environment.development.ts` y `src/environments/environment.ts`.
+6. Publicá las reglas con `firebase deploy --only firestore:rules`.
 
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+No hay claves administrativas ni cuentas de prueba incluidas. Sin esa configuración, las pantallas de autenticación y ciudades guardadas informan claramente que Firebase está pendiente; la búsqueda y el clima siguen funcionando con Open-Meteo.
+
+La colección utilizada es:
+
+```text
+users/{uid}/savedCities/{cityExternalId}
+```
+
+Cada documento contiene los datos de la ciudad, estado, notas, fecha planificada, temperatura preferida y timestamps de creación/actualización. Las reglas están en `firestore.rules` y restringen el acceso al usuario dueño.
+
+## Rutas
+
+| Ruta | Descripción |
+| --- | --- |
+| `/inicio` | Inicio |
+| `/buscar` | Buscador Open-Meteo |
+| `/clima/:cityId` | Detalle y pronóstico de siete días |
+| `/login` | Inicio de sesión |
+| `/registro` | Registro |
+| `/mis-ciudades` | CRUD de destinos, requiere sesión |
+| `/estadisticas` | Gráficos dinámicos, requiere sesión |
+
+Las rutas privadas redirigen a `/login` y conservan `returnUrl`.
+
+## Despliegue en Firebase Hosting
+
+El archivo `firebase.json` ya apunta a `dist/climaTrip/browser` y contiene el rewrite de SPA.
 
 ```bash
-ng test
+npm install -g firebase-tools
+firebase login
+firebase use --add
+npx ng build
+firebase deploy --only hosting,firestore:rules
 ```
 
-## Running end-to-end tests
+No se debe desplegar hasta completar Firebase Console y verificar la aplicación localmente.
 
-For end-to-end (e2e) testing, run:
+## Estructura principal
 
-```bash
-ng e2e
+```text
+src/app/core/          modelos, guard, servicios y utilidades
+src/app/features/      pantallas lazy de la aplicación
+src/app/shared/        formulario reutilizable de ciudad guardada
+src/environments/      configuración Firebase a completar
+docs/                  plan de pruebas
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+## Limitaciones conocidas
 
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+- Open-Meteo no requiere API key, pero depende de conectividad externa.
+- Firebase no se puede habilitar sin crear el proyecto y pegar su configuración real.
+- La versión disponible de AngularFire declara compatibilidad con Angular 20; se validó con build en Angular 21, pero conviene reevaluar la dependencia al actualizar Angular.

@@ -29,9 +29,13 @@
       <ul class="footer__nav-list">
         <li><a routerLink="/inicio" class="footer__nav-link">Inicio</a></li>
         <li><a routerLink="/buscar" class="footer__nav-link">Buscar ciudades</a></li>
-        <li><a routerLink="/mis-ciudades" class="footer__nav-link">Mis ciudades</a></li>
-        <li><a routerLink="/estadisticas" class="footer__nav-link">Estadísticas</a></li>
-        <li><a routerLink="/login" class="footer__nav-link">Iniciar sesión</a></li>
+        @if (user()) {
+          <li><a routerLink="/mis-ciudades" class="footer__nav-link">Mis ciudades</a></li>
+          <li><a routerLink="/estadisticas" class="footer__nav-link">Estadísticas</a></li>
+        } @else {
+          <li><a routerLink="/login" class="footer__nav-link">Iniciar sesión</a></li>
+          <li><a routerLink="/registro" class="footer__nav-link">Crear cuenta</a></li>
+        }
       </ul>
     </nav>
 

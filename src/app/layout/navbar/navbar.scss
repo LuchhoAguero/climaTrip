@@ -153,6 +153,16 @@
       }
     }
   }
+
+  &__user {
+    max-width: 10rem;
+    overflow: hidden;
+    padding: 0.45rem 0.6rem;
+    color: var(--color-text-muted);
+    font-size: 0.78rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
 }
 
 // ============================================================
@@ -196,6 +206,8 @@
         display: flex;
       }
     }
+
+    &__user { max-width: 100%; padding: 0.7rem 0.9rem; }
   }
 }
 

@@ -1,28 +1,17 @@
-<div class="page-container">
-  <div class="page-card">
-
-    <div class="page-card__icon-wrap" aria-hidden="true">
-      <!-- Marcador de ubicación -->
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
-           stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"
-           width="28" height="28">
-        <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/>
-        <circle cx="12" cy="10" r="3"/>
-      </svg>
-    </div>
-
-    <span class="page-card__status">En desarrollo</span>
-
-    <h1 class="page-card__title">Mis ciudades</h1>
-
-    <p class="page-card__description">
-      Esta sección permitirá consultar, editar y eliminar ciudades guardadas una vez que se implemente Firebase Firestore.
-    </p>
-
-    <div class="page-card__actions">
-      <a routerLink="/buscar" class="btn btn--primary">Buscar ciudades</a>
-      <a routerLink="/inicio" class="btn btn--secondary">Volver al inicio</a>
-    </div>
-
+<section class="saved-cities">
+  <div class="container saved-cities__inner">
+    <header class="saved-cities__header"><div><span class="section-label">Tus destinos</span><h1>Mis ciudades</h1><p>Organizá los lugares que te interesan y prepará cada viaje.</p></div><a routerLink="/buscar" class="btn btn--primary">Buscar ciudades</a></header>
+    @if (feedback()) { <p class="feedback" [class.feedback--error]="feedback().includes('No') || feedback().includes('Firebase')" aria-live="polite">{{ feedback() }}</p> }
+    @if (loading()) { <p class="state-message" aria-live="polite">Cargando tus ciudades...</p> }
+    @else if (error()) { <p class="state-message state-message--error" role="alert">{{ error() }}</p> }
+    @else if (cities().length === 0) { <div class="empty-state"><h2>Todavía no guardaste ninguna ciudad.</h2><p>Empezá buscando un destino para poder organizarlo.</p><a routerLink="/buscar" class="btn btn--primary">Buscar ciudades</a></div> }
+    @else {
+      <form class="filters" [formGroup]="filtersForm"><div><label for="saved-term">Buscar</label><input id="saved-term" formControlName="term" placeholder="Ciudad o país"></div><div><label for="saved-status">Estado</label><select id="saved-status" formControlName="status"><option value="all">Todos los estados</option><option value="interested">Me interesa</option><option value="planned">Planificada</option><option value="visited">Visitada</option></select></div><div><label for="saved-country">País</label><select id="saved-country" formControlName="country"><option value="">Todos los países</option>@for (country of countries(); track country) { <option [value]="country">{{ country }}</option> }</select></div><div><label for="saved-sort">Ordenar</label><select id="saved-sort" formControlName="sort"><option value="newest">Más recientes</option><option value="oldest">Más antiguas</option><option value="name-asc">Nombre A-Z</option><option value="name-desc">Nombre Z-A</option><option value="planned-date">Próxima fecha planificada</option></select></div><button type="button" class="btn btn--secondary btn--sm" (click)="clearFilters()">Limpiar filtros</button></form>
+      <p class="saved-cities__count">{{ filteredCities().length }} de {{ cities().length }} ciudades</p>
+      @if (filteredCities().length === 0) { <p class="state-message">No hay ciudades que coincidan con los filtros.</p> }
+      <div class="city-grid">@for (city of filteredCities(); track city.id) { <article class="saved-city-card"><div class="saved-city-card__head"><div><span class="status status--{{ city.status }}">{{ statusLabel(city.status) }}</span><h2>{{ city.name }}</h2><p>{{ city.country }}@if (city.admin1) { · {{ city.admin1 }} }</p></div><span class="saved-city-card__code">{{ city.countryCode }}</span></div><dl><div><dt>Fecha planificada</dt><dd>{{ city.plannedDate || 'Sin definir' }}</dd></div><div><dt>Temperatura preferida</dt><dd>{{ city.preferredTemperature === null ? 'Sin definir' : city.preferredTemperature + ' °C' }}</dd></div><div><dt>Guardada</dt><dd>{{ createdLabel(city) }}</dd></div></dl>@if (city.notes) { <p class="saved-city-card__notes">{{ city.notes }}</p> }<div class="saved-city-card__actions"><button type="button" class="btn btn--outline-primary btn--sm" (click)="viewWeather(city)">Ver clima</button><button type="button" class="btn btn--secondary btn--sm" (click)="editCity(city)">Editar</button><button type="button" class="btn btn--danger btn--sm" (click)="confirmDelete(city)">Eliminar</button></div></article> }</div>
+    }
+    @if (selectedCity(); as city) { <div class="modal-backdrop"><section class="modal" role="dialog" aria-modal="true" aria-labelledby="edit-city-title"><div class="modal__head"><h2 id="edit-city-title">Editar {{ city.name }}</h2><button type="button" (click)="selectedCity.set(null)" aria-label="Cerrar edición">×</button></div><app-saved-city-form [initialValue]="city" [submitting]="saving()" (saveCity)="saveChanges($event)" (cancel)="selectedCity.set(null)" /></section></div> }
+    @if (cityToDelete(); as city) { <div class="modal-backdrop"><section class="modal modal--small" role="dialog" aria-modal="true" aria-labelledby="delete-city-title"><div class="modal__head"><h2 id="delete-city-title">Eliminar ciudad</h2><button type="button" (click)="cityToDelete.set(null)" aria-label="Cerrar confirmación">×</button></div><p>¿Querés eliminar {{ city.name }} de tus ciudades guardadas?</p><div class="modal__actions"><button class="btn btn--secondary" type="button" (click)="cityToDelete.set(null)" [disabled]="deleting()">Cancelar</button><button class="btn btn--danger" type="button" (click)="deleteCity()" [disabled]="deleting()">{{ deleting() ? 'Eliminando...' : 'Eliminar' }}</button></div></section></div> }
   </div>
-</div>
+</section>
