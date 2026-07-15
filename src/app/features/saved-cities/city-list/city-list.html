@@ -1,10 +1,28 @@
 <div class="page-container">
   <div class="page-card">
-    <div class="page-card__icon">📌</div>
+
+    <div class="page-card__icon-wrap" aria-hidden="true">
+      <!-- Marcador de ubicación -->
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+           stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"
+           width="28" height="28">
+        <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/>
+        <circle cx="12" cy="10" r="3"/>
+      </svg>
+    </div>
+
+    <span class="page-card__status">En desarrollo</span>
+
     <h1 class="page-card__title">Mis ciudades</h1>
+
     <p class="page-card__description">
-      La gestión de ciudades guardadas se implementará próximamente.
+      Esta sección permitirá consultar, editar y eliminar ciudades guardadas una vez que se implemente Firebase Firestore.
     </p>
-    <span class="page-card__badge">Próximamente</span>
+
+    <div class="page-card__actions">
+      <a routerLink="/buscar" class="btn btn--primary">Buscar ciudades</a>
+      <a routerLink="/inicio" class="btn btn--secondary">Volver al inicio</a>
+    </div>
+
   </div>
 </div>

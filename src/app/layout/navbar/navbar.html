@@ -1,31 +1,100 @@
-<header class="navbar">
-  <a class="navbar__brand" routerLink="/inicio" aria-label="ClimaTrip - Inicio">
-    <span class="navbar__brand-icon">🌤</span>
-    <span class="navbar__brand-text">ClimaTrip</span>
+<header
+  class="navbar"
+  [class.navbar--scrolled]="scrolled()"
+  role="banner"
+>
+  <!-- Marca / Logo -->
+  <a class="navbar__brand" routerLink="/inicio" aria-label="ClimaTrip – Ir al inicio">
+    <span class="navbar__brand-icon" aria-hidden="true">
+      <!-- SVG CloudSun inline -->
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+           stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"
+           width="20" height="20" aria-hidden="true">
+        <path d="M12 2v2"/>
+        <path d="m4.93 4.93 1.41 1.41"/>
+        <path d="M20 12h2"/>
+        <path d="m19.07 4.93-1.41 1.41"/>
+        <path d="M15.947 12.65a4 4 0 0 0-5.925-4.128"/>
+        <path d="M13 22H7a5 5 0 1 1 4.9-6H13a3 3 0 0 1 0 6z"/>
+      </svg>
+    </span>
+    <span class="navbar__brand-text">
+      Clima<span class="navbar__brand-highlight">Trip</span>
+    </span>
   </a>
 
+  <!-- Botón hamburguesa (móvil) -->
   <button
+    id="navbar-toggle"
     class="navbar__toggle"
+    type="button"
     (click)="toggleMenu()"
     [attr.aria-expanded]="menuOpen()"
-    aria-controls="navbar-links"
-    aria-label="Alternar menú de navegación"
+    aria-controls="navbar-menu"
+    [attr.aria-label]="menuOpen() ? 'Cerrar menú de navegación' : 'Abrir menú de navegación'"
   >
-    <span class="navbar__toggle-bar"></span>
-    <span class="navbar__toggle-bar"></span>
-    <span class="navbar__toggle-bar"></span>
+    <span class="navbar__toggle-icon" aria-hidden="true">
+      <!-- Ícono X cuando abierto, hamburgesa cuando cerrado -->
+      @if (menuOpen()) {
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+             width="20" height="20">
+          <line x1="18" y1="6" x2="6" y2="18"/>
+          <line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      } @else {
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+             width="20" height="20">
+          <line x1="3" y1="6" x2="21" y2="6"/>
+          <line x1="3" y1="12" x2="21" y2="12"/>
+          <line x1="3" y1="18" x2="21" y2="18"/>
+        </svg>
+      }
+    </span>
   </button>
 
+  <!-- Navegación principal -->
   <nav
-    id="navbar-links"
-    class="navbar__links"
-    [class.navbar__links--open]="menuOpen()"
+    id="navbar-menu"
+    class="navbar__nav"
+    [class.navbar__nav--open]="menuOpen()"
     aria-label="Navegación principal"
   >
-    <a routerLink="/inicio" routerLinkActive="active" (click)="closeMenu()">Inicio</a>
-    <a routerLink="/buscar" routerLinkActive="active" (click)="closeMenu()">Buscar</a>
-    <a routerLink="/mis-ciudades" routerLinkActive="active" (click)="closeMenu()">Mis ciudades</a>
-    <a routerLink="/estadisticas" routerLinkActive="active" (click)="closeMenu()">Estadísticas</a>
-    <a routerLink="/login" routerLinkActive="active" class="navbar__cta" (click)="closeMenu()">Iniciar sesión</a>
+    <a
+      routerLink="/inicio"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: true }"
+      class="navbar__link"
+      (click)="closeMenu()"
+    >Inicio</a>
+
+    <a
+      routerLink="/buscar"
+      routerLinkActive="active"
+      class="navbar__link"
+      (click)="closeMenu()"
+    >Buscar</a>
+
+    <a
+      routerLink="/mis-ciudades"
+      routerLinkActive="active"
+      class="navbar__link"
+      (click)="closeMenu()"
+    >Mis ciudades</a>
+
+    <a
+      routerLink="/estadisticas"
+      routerLinkActive="active"
+      class="navbar__link"
+      (click)="closeMenu()"
+    >Estadísticas</a>
+
+    <a
+      routerLink="/login"
+      routerLinkActive="active"
+      class="navbar__link navbar__link--cta"
+      (click)="closeMenu()"
+    >Iniciar sesión</a>
   </nav>
 </header>

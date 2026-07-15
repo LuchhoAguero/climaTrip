@@ -1,0 +1,398 @@
+// ── Aurora background ──────────────────────────────────────────
+
+.aurora {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+
+  &__blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    animation: aurora-drift 18s ease-in-out infinite;
+
+    &--1 {
+      width: 520px;
+      height: 520px;
+      top: -120px;
+      left: -80px;
+      background: var(--aurora-1);
+      animation-duration: 20s;
+    }
+
+    &--2 {
+      width: 460px;
+      height: 460px;
+      top: 80px;
+      right: -100px;
+      background: var(--aurora-2);
+      animation-duration: 24s;
+      animation-delay: -6s;
+    }
+
+    &--3 {
+      width: 380px;
+      height: 380px;
+      bottom: -100px;
+      left: 30%;
+      background: var(--aurora-3);
+      animation-duration: 28s;
+      animation-delay: -12s;
+    }
+  }
+
+  &__grid {
+    position: absolute;
+    inset: 0;
+    opacity: 0.04;
+    background-image: radial-gradient(currentColor 1px, transparent 1px);
+    background-size: 24px 24px;
+    color: var(--color-text);
+  }
+}
+
+// ── Hero layout ────────────────────────────────────────────────
+
+.hero {
+  position: relative;
+  overflow: hidden;
+  min-height: calc(100vh - var(--navbar-height));
+  display: flex;
+  align-items: center;
+
+  &__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 3rem;
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+    position: relative;
+    z-index: 1;
+    width: 100%;
+
+    @media (min-width: 960px) {
+      grid-template-columns: 1.1fr 1fr;
+      gap: 4rem;
+      padding-top: 4rem;
+      padding-bottom: 5rem;
+      align-items: center;
+    }
+  }
+
+  // ── Texto ──────────────────────────────────────────────
+  &__copy {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+
+    @media (min-width: 960px) {
+      align-items: flex-start;
+      text-align: left;
+    }
+  }
+
+  &__label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.35rem 0.9rem;
+    margin-bottom: 1.5rem;
+    background-color: rgba(85, 184, 255, 0.10);
+    border: 1px solid rgba(85, 184, 255, 0.25);
+    border-radius: var(--radius-pill);
+    color: var(--color-primary);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    animation: fade-in-up 0.6s ease both;
+  }
+
+  &__label-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: var(--color-primary);
+    animation: pulse-glow 2s ease-in-out infinite;
+  }
+
+  &__title {
+    font-size: clamp(2.25rem, 5vw, 3.75rem);
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    color: var(--color-text);
+    margin: 0 0 1.25rem;
+    animation: fade-in-up 0.6s 0.1s ease both;
+  }
+
+  &__title-gradient {
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-accent) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  &__desc {
+    font-size: 1.05rem;
+    line-height: 1.7;
+    color: var(--color-text-muted);
+    max-width: 480px;
+    margin: 0 0 2rem;
+    animation: fade-in-up 0.6s 0.2s ease both;
+  }
+
+  &__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.875rem;
+    margin-bottom: 2.25rem;
+    justify-content: center;
+    animation: fade-in-up 0.6s 0.3s ease both;
+
+    @media (min-width: 960px) {
+      justify-content: flex-start;
+    }
+  }
+
+  // ── Indicadores ────────────────────────────────────────
+  &__indicators {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    animation: fade-in-up 0.6s 0.4s ease both;
+  }
+
+  &__indicator {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.15rem;
+
+    @media (min-width: 960px) {
+      align-items: flex-start;
+    }
+  }
+
+  &__indicator-value {
+    font-size: 1rem;
+    font-weight: 800;
+    color: var(--color-text);
+    letter-spacing: -0.02em;
+  }
+
+  &__indicator-label {
+    font-size: 0.72rem;
+    color: var(--color-text-muted);
+  }
+
+  &__indicator-sep {
+    width: 1px;
+    height: 2rem;
+    background-color: var(--color-border);
+    flex-shrink: 0;
+  }
+
+  // ── Visual / ilustración ───────────────────────────────
+  &__visual {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    aspect-ratio: 1;
+    max-width: 420px;
+    margin-inline: auto;
+    width: 100%;
+
+    @media (min-width: 960px) {
+      max-width: 460px;
+      margin-inline: 0;
+    }
+  }
+
+  // Anillos orbitales
+  &__rings {
+    position: absolute;
+    inset: 0;
+    animation: spin-slow 40s linear infinite;
+  }
+
+  &__ring {
+    position: absolute;
+    border-radius: 50%;
+    border: 1px solid;
+
+    &--1 {
+      inset: 6%;
+      border-color: rgba(85, 184, 255, 0.20);
+    }
+
+    &--2 {
+      inset: 16%;
+      border-color: rgba(85, 184, 255, 0.14);
+    }
+
+    &--3 {
+      inset: 28%;
+      border-color: rgba(85, 184, 255, 0.08);
+    }
+  }
+
+  // Resplandor
+  &__glow {
+    position: absolute;
+    inset: 20%;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(85, 184, 255, 0.30) 0%, transparent 70%);
+    filter: blur(24px);
+    animation: pulse-glow 4s ease-in-out infinite;
+  }
+
+  // Planeta
+  &__earth-wrap {
+    position: absolute;
+    inset: 18%;
+    border-radius: 50%;
+    overflow: hidden;
+    box-shadow:
+      0 0 0 1px rgba(85, 184, 255, 0.20),
+      0 16px 64px rgba(85, 184, 255, 0.20),
+      0 32px 80px rgba(0, 0, 0, 0.5);
+    animation: float-gentle 8s ease-in-out infinite;
+  }
+
+  &__earth {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+  }
+
+  // Chips flotantes
+  &__chip {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.6rem 0.9rem;
+    background-color: rgba(19, 34, 56, 0.85);
+    border: 1px solid rgba(85, 184, 255, 0.20);
+    border-radius: var(--radius-lg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    white-space: nowrap;
+    z-index: 2;
+
+    &--ba {
+      top: 8%;
+      right: -4%;
+      animation: float-slow 7s ease-in-out infinite;
+    }
+
+    &--lon {
+      top: 44%;
+      left: -8%;
+      animation: float-slow 9s ease-in-out infinite;
+      animation-delay: -3s;
+    }
+
+    &--oslo {
+      bottom: 10%;
+      right: 4%;
+      animation: float-slow 8s ease-in-out infinite;
+      animation-delay: -5s;
+    }
+
+    &--tokio {
+      bottom: 26%;
+      left: 0%;
+      animation: float-slow 10s ease-in-out infinite;
+      animation-delay: -7s;
+    }
+  }
+
+  &__chip-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: var(--radius-sm);
+    background-color: rgba(85, 184, 255, 0.12);
+    color: var(--color-primary);
+    flex-shrink: 0;
+  }
+
+  &__chip-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  &__chip-city {
+    font-size: 0.7rem;
+    color: var(--color-text-muted);
+    line-height: 1.2;
+  }
+
+  &__chip-temp {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--color-text);
+    line-height: 1.2;
+  }
+
+  &__demo-note {
+    position: absolute;
+    bottom: -1.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.68rem;
+    color: var(--color-text-muted);
+    opacity: 0.6;
+    white-space: nowrap;
+    font-style: italic;
+  }
+}
+
+// ── Responsive ajustes ──────────────────────────────────────
+
+@media (max-width: 480px) {
+  .hero {
+    &__chip--ba {
+      right: 0;
+      top: 4%;
+    }
+
+    &__chip--lon {
+      left: 0;
+    }
+
+    &__chip--oslo {
+      right: 0;
+    }
+
+    &__chip--tokio {
+      left: 0;
+      bottom: 22%;
+    }
+  }
+}
+
+@media (max-width: 360px) {
+  .hero {
+    &__chip {
+      font-size: 0.75rem;
+      padding: 0.45rem 0.7rem;
+    }
+
+    &__chip-icon {
+      width: 22px;
+      height: 22px;
+    }
+  }
+}

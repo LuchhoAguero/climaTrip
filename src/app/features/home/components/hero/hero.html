@@ -1,0 +1,155 @@
+<section class="hero" aria-label="Sección principal">
+  <!-- Fondo aurora -->
+  <div class="aurora" aria-hidden="true">
+    <div class="aurora__blob aurora__blob--1"></div>
+    <div class="aurora__blob aurora__blob--2"></div>
+    <div class="aurora__blob aurora__blob--3"></div>
+    <div class="aurora__grid"></div>
+  </div>
+
+  <div class="container hero__grid">
+
+    <!-- ── Columna izquierda: texto ───────────────────── -->
+    <div class="hero__copy">
+      <span class="hero__label" aria-label="Categoría">
+        <span class="hero__label-dot" aria-hidden="true"></span>
+        Explorador meteorológico
+      </span>
+
+      <h1 class="hero__title">
+        Conocé el clima de
+        <span class="hero__title-gradient">tu próximo destino</span>
+      </h1>
+
+      <p class="hero__desc">
+        Buscá ciudades, consultá su pronóstico y organizá tus
+        destinos favoritos en una sola aplicación.
+      </p>
+
+      <div class="hero__actions">
+        <a routerLink="/buscar" class="btn btn--primary btn--lg">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
+               width="16" height="16" aria-hidden="true">
+            <circle cx="11" cy="11" r="8"/>
+            <path d="m21 21-4.3-4.3"/>
+          </svg>
+          Buscar ciudades
+        </a>
+        <a routerLink="/registro" class="btn btn--secondary btn--lg">
+          Crear una cuenta
+        </a>
+      </div>
+
+      <!-- Indicadores -->
+      <div class="hero__indicators" aria-label="Características del proyecto">
+        <div class="hero__indicator">
+          <span class="hero__indicator-value">7 días</span>
+          <span class="hero__indicator-label">Pronóstico</span>
+        </div>
+        <span class="hero__indicator-sep" aria-hidden="true"></span>
+        <div class="hero__indicator">
+          <span class="hero__indicator-value">Búsqueda</span>
+          <span class="hero__indicator-label">Por ciudad</span>
+        </div>
+        <span class="hero__indicator-sep" aria-hidden="true"></span>
+        <div class="hero__indicator">
+          <span class="hero__indicator-value">Guardado</span>
+          <span class="hero__indicator-label">De ciudades</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Columna derecha: ilustración ───────────────── -->
+    <div class="hero__visual" aria-hidden="true">
+      <!-- Anillos orbitales -->
+      <div class="hero__rings">
+        <div class="hero__ring hero__ring--1"></div>
+        <div class="hero__ring hero__ring--2"></div>
+        <div class="hero__ring hero__ring--3"></div>
+      </div>
+
+      <!-- Glow detrás del planeta -->
+      <div class="hero__glow"></div>
+
+      <!-- Planeta Tierra -->
+      <div class="hero__earth-wrap">
+        <img
+          src="images/earth-hero.png"
+          alt="Planeta Tierra visto desde el espacio con un halo azul"
+          class="hero__earth"
+          loading="eager"
+          decoding="async"
+          width="380"
+          height="380"
+        />
+      </div>
+
+      <!-- Chips flotantes de ciudades (datos de demostración) -->
+      <div class="hero__chip hero__chip--ba" title="Dato visual de demostración">
+        <span class="hero__chip-icon">
+          <!-- Sol -->
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+               width="14" height="14">
+            <circle cx="12" cy="12" r="4"/>
+            <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
+          </svg>
+        </span>
+        <div class="hero__chip-info">
+          <span class="hero__chip-city">Buenos Aires</span>
+          <span class="hero__chip-temp">22 °C</span>
+        </div>
+      </div>
+
+      <div class="hero__chip hero__chip--lon" title="Dato visual de demostración">
+        <span class="hero__chip-icon">
+          <!-- Lluvia -->
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+               width="14" height="14">
+            <path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242"/>
+            <path d="M16 14v6M8 14v6M12 16v6"/>
+          </svg>
+        </span>
+        <div class="hero__chip-info">
+          <span class="hero__chip-city">Londres</span>
+          <span class="hero__chip-temp">14 °C</span>
+        </div>
+      </div>
+
+      <div class="hero__chip hero__chip--oslo" title="Dato visual de demostración">
+        <span class="hero__chip-icon">
+          <!-- Nieve -->
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+               width="14" height="14">
+            <path d="M12 2v20M4.93 4.93l14.14 14.14M2 12h20M4.93 19.07l14.14-14.14M12 2 9 5l3 3 3-3-3-3zM12 22l-3-3 3-3 3 3-3 3zM2 12l3-3 3 3-3 3-3-3zM22 12l-3-3-3 3 3 3 3-3z"/>
+          </svg>
+        </span>
+        <div class="hero__chip-info">
+          <span class="hero__chip-city">Oslo</span>
+          <span class="hero__chip-temp">−3 °C</span>
+        </div>
+      </div>
+
+      <div class="hero__chip hero__chip--tokio" title="Dato visual de demostración">
+        <span class="hero__chip-icon">
+          <!-- Nube -->
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+               width="14" height="14">
+            <path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9z"/>
+          </svg>
+        </span>
+        <div class="hero__chip-info">
+          <span class="hero__chip-city">Tokio</span>
+          <span class="hero__chip-temp">19 °C</span>
+        </div>
+      </div>
+
+      <p class="hero__demo-note">Datos visuales de demostración</p>
+    </div>
+
+  </div>
+</section>

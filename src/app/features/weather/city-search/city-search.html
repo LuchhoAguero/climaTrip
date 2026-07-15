@@ -1,10 +1,27 @@
 <div class="page-container">
   <div class="page-card">
-    <div class="page-card__icon">🔍</div>
+
+    <div class="page-card__icon-wrap" aria-hidden="true">
+      <!-- Lupa -->
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+           stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"
+           width="28" height="28">
+        <circle cx="11" cy="11" r="8"/>
+        <path d="m21 21-4.3-4.3"/>
+      </svg>
+    </div>
+
+    <span class="page-card__status">Próxima etapa</span>
+
     <h1 class="page-card__title">Buscar ciudades</h1>
+
     <p class="page-card__description">
-      El buscador meteorológico se implementará en la siguiente etapa.
+      En la próxima etapa se incorporará el buscador conectado con Open&#8209;Meteo.
     </p>
-    <span class="page-card__badge">Próximamente</span>
+
+    <div class="page-card__actions">
+      <a routerLink="/inicio" class="btn btn--secondary">Volver al inicio</a>
+    </div>
+
   </div>
 </div>
