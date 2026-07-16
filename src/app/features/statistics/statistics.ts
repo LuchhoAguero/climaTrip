@@ -1,4 +1,14 @@
-import { AfterViewInit, Component, DestroyRef, ElementRef, OnDestroy, ViewChild, computed, inject, signal } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  DestroyRef,
+  ElementRef,
+  OnDestroy,
+  ViewChild,
+  computed,
+  inject,
+  signal,
+} from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Chart, registerables } from 'chart.js';
 import { catchError, of, switchMap, tap } from 'rxjs';
@@ -6,6 +16,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { SavedCity } from '../../core/models/saved-city.model';
 import { AuthService } from '../../core/services/auth.service';
 import { SavedCityService } from '../../core/services/saved-city.service';
+import { nextPlannedCity } from '../../core/utils/saved-city-statistics';
 
 Chart.register(...registerables);
 
@@ -36,25 +47,39 @@ export class Statistics implements AfterViewInit, OnDestroy {
   }));
   readonly countryCount = computed(() => new Set(this.cities().map((city) => city.country)).size);
   readonly averageTemperature = computed(() => {
-    const temperatures = this.cities().flatMap((city) => city.preferredTemperature === null ? [] : [city.preferredTemperature]);
-    return temperatures.length ? temperatures.reduce((total, value) => total + value, 0) / temperatures.length : null;
+    const temperatures = this.cities().flatMap((city) =>
+      city.preferredTemperature === null ? [] : [city.preferredTemperature],
+    );
+    return temperatures.length
+      ? temperatures.reduce((total, value) => total + value, 0) / temperatures.length
+      : null;
   });
-  readonly nextPlanned = computed(() => this.cities()
-    .filter((city) => city.status === 'planned' && city.plannedDate)
-    .sort((a, b) => (a.plannedDate ?? '').localeCompare(b.plannedDate ?? ''))[0] ?? null);
+  readonly nextPlanned = computed(() => nextPlannedCity(this.cities()));
 
   constructor() {
-    this.auth.user$.pipe(
-      tap(() => { this.loading.set(true); this.error.set(''); }),
-      switchMap((user) => user
-        ? this.savedCities.getSavedCities(user.uid).pipe(catchError((error: Error) => { this.error.set(error.message); return of<SavedCity[]>([]); }))
-        : of<SavedCity[]>([])),
-      takeUntilDestroyed(this.destroyRef),
-    ).subscribe((cities) => {
-      this.cities.set(cities);
-      this.loading.set(false);
-      queueMicrotask(() => this.renderCharts());
-    });
+    this.auth.user$
+      .pipe(
+        tap(() => {
+          this.loading.set(true);
+          this.error.set('');
+        }),
+        switchMap((user) =>
+          user
+            ? this.savedCities.getSavedCities(user.uid).pipe(
+                catchError((error: Error) => {
+                  this.error.set(error.message);
+                  return of<SavedCity[]>([]);
+                }),
+              )
+            : of<SavedCity[]>([]),
+        ),
+        takeUntilDestroyed(this.destroyRef),
+      )
+      .subscribe((cities) => {
+        this.cities.set(cities);
+        this.loading.set(false);
+        queueMicrotask(() => this.renderCharts());
+      });
   }
 
   ngAfterViewInit(): void {
@@ -77,22 +102,58 @@ export class Statistics implements AfterViewInit, OnDestroy {
       type: 'doughnut',
       data: {
         labels: ['Me interesa', 'Planificadas', 'Visitadas'],
-        datasets: [{ data: [status.interested, status.planned, status.visited], backgroundColor: ['#55b8ff', '#ffc84a', '#51cf66'], borderColor: '#132238', borderWidth: 3 }],
+        datasets: [
+          {
+            data: [status.interested, status.planned, status.visited],
+            backgroundColor: ['#55b8ff', '#ffc84a', '#51cf66'],
+            borderColor: '#132238',
+            borderWidth: 3,
+          },
+        ],
       },
-      options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { labels: { color: '#f4f8fc' } } } },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { labels: { color: '#f4f8fc' } } },
+      },
     });
 
-    const countryData = [...this.cities().reduce((counts, city) => {
-      counts.set(city.country, (counts.get(city.country) ?? 0) + 1);
-      return counts;
-    }, new Map<string, number>()).entries()].sort((a, b) => b[1] - a[1]).slice(0, 8);
+    const countryData = [
+      ...this.cities()
+        .reduce((counts, city) => {
+          counts.set(city.country, (counts.get(city.country) ?? 0) + 1);
+          return counts;
+        }, new Map<string, number>())
+        .entries(),
+    ]
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 8);
     this.countryChart = new Chart(this.countryCanvas.nativeElement, {
       type: 'bar',
       data: {
         labels: countryData.map(([country]) => country),
-        datasets: [{ label: 'Ciudades', data: countryData.map(([, count]) => count), backgroundColor: '#66e0d2', borderRadius: 4 }],
+        datasets: [
+          {
+            label: 'Ciudades',
+            data: countryData.map(([, count]) => count),
+            backgroundColor: '#66e0d2',
+            borderRadius: 4,
+          },
+        ],
       },
-      options: { responsive: true, maintainAspectRatio: false, scales: { x: { ticks: { color: '#9fb0c3' }, grid: { color: 'rgba(255,255,255,0.06)' } }, y: { beginAtZero: true, ticks: { precision: 0, color: '#9fb0c3' }, grid: { color: 'rgba(255,255,255,0.06)' } } }, plugins: { legend: { display: false } } },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          x: { ticks: { color: '#9fb0c3' }, grid: { color: 'rgba(255,255,255,0.06)' } },
+          y: {
+            beginAtZero: true,
+            ticks: { precision: 0, color: '#9fb0c3' },
+            grid: { color: 'rgba(255,255,255,0.06)' },
+          },
+        },
+        plugins: { legend: { display: false } },
+      },
     });
   }
 }

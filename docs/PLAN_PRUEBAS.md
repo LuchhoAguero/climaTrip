@@ -1,26 +1,51 @@
-# Plan de pruebas - ClimaTrip
+# Plan de Pruebas - ClimaTrip
 
-| ID | Caso | Resultado esperado |
-| --- | --- | --- |
-| AUTH-01 | Registro válido | Se crea usuario y redirige a la ruta solicitada. |
-| AUTH-02 | Registro inválido | Se muestran validaciones sin enviar el formulario. |
-| AUTH-03 | Login válido | Inicia sesión y permite acceder a rutas privadas. |
-| AUTH-04 | Login inválido | Se muestra un mensaje traducido. |
-| GUARD-01 | Ruta privada sin sesión | Redirige a `/login` con `returnUrl`. |
-| GUARD-02 | Ruta privada con sesión | Muestra la pantalla solicitada. |
-| API-01 | Búsqueda válida | Open-Meteo devuelve tarjetas de ciudades. |
-| API-02 | Menos de tres caracteres | No se envía ninguna petición. |
-| API-03 | Sin resultados | Se informa búsqueda sin resultados. |
-| API-04 | Error de red | Se muestra error comprensible. |
-| WEATHER-01 | Clima válido | Se muestran datos actuales y pronóstico de siete días. |
-| CRUD-01 | Crear | Guarda una ciudad en Firestore. |
-| CRUD-02 | Leer | La lista refleja cambios en tiempo real. |
-| CRUD-03 | Actualizar | Persiste estado, fecha, temperatura y notas. |
-| CRUD-04 | Eliminar | Pide confirmación y elimina el documento. |
-| CRUD-05 | Evitar duplicado | No permite dos documentos con el mismo `cityExternalId`. |
-| SEC-01 | Separación por usuario | Un usuario no puede leer la subcolección de otro. |
-| STATS-01 | Estadísticas con datos | Indicadores y Chart.js se recalculan. |
-| STATS-02 | Estadísticas vacías | Se muestra estado vacío. |
-| UI-01 | Responsive 320 px | No hay scroll horizontal ni controles inaccesibles. |
-| UI-02 | Teclado | Formularios, menú y modales se pueden operar por teclado. |
-| BUILD-01 | Compilación producción | `npx ng build` finaliza sin warnings. |
+## Automatizadas Completadas
+
+| ID              | Caso                                                                                 | Estado     |
+| --------------- | ------------------------------------------------------------------------------------ | ---------- |
+| AUTH-UNIT-01    | Registro con checkbox de términos desmarcado deja el formulario inválido.            | Completada |
+| AUTH-UNIT-02    | Registro inválido no invoca el servicio de Auth.                                     | Completada |
+| AUTH-UNIT-03    | Registro válido con términos aceptados invoca el servicio.                           | Completada |
+| GUARD-UNIT-01   | Ruta privada con usuario autenticado permite acceso.                                 | Completada |
+| GUARD-UNIT-02   | Ruta privada sin sesión redirige a `/login` con `returnUrl`.                         | Completada |
+| API-UNIT-01     | Búsqueda menor a tres caracteres no llama a Open-Meteo.                              | Completada |
+| API-UNIT-02     | Búsqueda válida arma parámetros esperados.                                           | Completada |
+| API-UNIT-03     | Error HTTP devuelve mensaje comprensible.                                            | Completada |
+| SEARCH-UNIT-01  | Población conocida superior o igual supera el filtro.                                | Completada |
+| SEARCH-UNIT-02  | Población conocida inferior no supera el filtro.                                     | Completada |
+| SEARCH-UNIT-03  | Población desconocida no supera un mínimo positivo.                                  | Completada |
+| SEARCH-UNIT-04  | Filtro vacío o cero no excluye población desconocida.                                | Completada |
+| SEARCH-UNIT-05  | Población mínima negativa es inválida.                                               | Completada |
+| SEARCH-UNIT-06  | Ordenamiento por población deja valores desconocidos al final.                       | Completada |
+| SEARCH-UNIT-07  | Regiones dependen del país, sin duplicados y ordenadas.                              | Completada |
+| STATS-UNIT-01   | Próxima ciudad planificada ignora fechas pasadas.                                    | Completada |
+| STATS-UNIT-02   | Próxima ciudad planificada acepta fecha de hoy.                                      | Completada |
+| STATS-UNIT-03   | Próxima ciudad planificada ignora fechas inválidas, nulas y estados no planificados. | Completada |
+| WEATHER-UNIT-01 | Amanecer y atardecer se formatean como `HH:mm`.                                      | Completada |
+| UI-UNIT-01      | Componente raíz se crea correctamente.                                               | Completada |
+
+## Pendientes con Firebase Real
+
+| ID           | Caso                                       | Motivo                                      |
+| ------------ | ------------------------------------------ | ------------------------------------------- |
+| FIREBASE-01  | Crear proyecto Firebase real.              | Requiere acción manual en Firebase Console. |
+| AUTH-REAL-01 | Registro real con Firebase Authentication. | Pendiente de credenciales reales.           |
+| AUTH-REAL-02 | Login y logout reales.                     | Pendiente de credenciales reales.           |
+| CRUD-REAL-01 | Crear ciudad en Cloud Firestore.           | Pendiente de proyecto y base Firestore.     |
+| CRUD-REAL-02 | Leer ciudades separadas por usuario.       | Pendiente de proyecto y reglas publicadas.  |
+| CRUD-REAL-03 | Actualizar ciudad guardada.                | Pendiente de proyecto y reglas publicadas.  |
+| CRUD-REAL-04 | Eliminar ciudad guardada.                  | Pendiente de proyecto y reglas publicadas.  |
+| SEC-REAL-01  | Validar reglas contra otro usuario.        | Pendiente de usuarios reales.               |
+| HOSTING-01   | Deploy en Firebase Hosting.                | Pendiente de creación manual del proyecto.  |
+
+## Manuales Recomendadas
+
+| ID         | Caso                                     | Resultado esperado                                      |
+| ---------- | ---------------------------------------- | ------------------------------------------------------- |
+| UI-01      | Responsive 320 px, tablet y desktop.     | No hay solapamientos ni scroll horizontal innecesario.  |
+| UI-02      | Navegación por teclado.                  | Formularios, filtros y modales son operables.           |
+| WEATHER-01 | Consulta real de clima con conectividad. | Se muestran clima actual y pronóstico de siete días.    |
+| BUILD-01   | `npm run build:prod`.                    | Finaliza sin errores y genera `dist/climaTrip/browser`. |
+
+No se realizaron pruebas reales contra Firebase porque el proyecto todavía no debe estar creado ni conectado.

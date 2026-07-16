@@ -10,56 +10,128 @@
         <div>
           <span class="section-label">Clima actual</span>
           <h1>{{ selectedCity.name }}</h1>
-          <p>{{ selectedCity.country }}@if (selectedCity.admin1) { · {{ selectedCity.admin1 }} }</p>
+          <p>
+            {{ selectedCity.country }}
+            @if (selectedCity.admin1) {
+              · {{ selectedCity.admin1 }}
+            }
+          </p>
         </div>
         @if (saved()) {
           <span class="saved-badge">Guardada</span>
         } @else {
-          <button class="btn btn--primary" type="button" (click)="requestSave()">Guardar en mis ciudades</button>
+          <button class="btn btn--primary" type="button" (click)="requestSave()">
+            Guardar en mis ciudades
+          </button>
         }
       </header>
 
-      @if (feedback()) { <p class="feedback" [class.feedback--error]="feedback().includes('No') || feedback().includes('Firebase')">{{ feedback() }}</p> }
+      @if (feedback(); as message) {
+        <p class="feedback" [class.feedback--error]="message.type === 'error'">
+          {{ message.text }}
+        </p>
+      }
 
       @if (!user()) {
-        <div class="login-hint">Iniciá sesión para guardar esta ciudad. <button type="button" (click)="requestSave()">Iniciar sesión</button></div>
+        <div class="login-hint">
+          Iniciá sesión para guardar esta ciudad.
+          <button type="button" (click)="requestSave()">Iniciar sesión</button>
+        </div>
       }
 
       @if (showSaveForm()) {
-        <section class="save-panel" role="dialog" aria-modal="true" aria-labelledby="save-city-title">
-          <div class="save-panel__head"><h2 id="save-city-title">Guardar {{ selectedCity.name }}</h2><button type="button" (click)="closeSaveForm()" aria-label="Cerrar formulario">×</button></div>
-          <app-saved-city-form [submitting]="saving()" (saveCity)="saveCity($event)" (cancel)="closeSaveForm()" />
+        <section
+          class="save-panel"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="save-city-title"
+        >
+          <div class="save-panel__head">
+            <h2 id="save-city-title">Guardar {{ selectedCity.name }}</h2>
+            <button type="button" (click)="closeSaveForm()" aria-label="Cerrar formulario">
+              ×
+            </button>
+          </div>
+          <app-saved-city-form
+            [submitting]="saving()"
+            (saveCity)="saveCity($event)"
+            (cancel)="closeSaveForm()"
+          />
         </section>
       }
 
       @if (weather(); as forecastWeather) {
-        <section class="current-weather" [attr.data-condition]="weatherCategory(forecastWeather.current.weather_code)">
-          <div class="current-weather__temperature"><span>{{ Math.round(forecastWeather.current.temperature_2m) }}°</span><p>{{ weatherLabel(forecastWeather.current.weather_code) }}</p></div>
+        <section
+          class="current-weather"
+          [attr.data-condition]="weatherCategory(forecastWeather.current.weather_code)"
+        >
+          <div class="current-weather__temperature">
+            <span>{{ Math.round(forecastWeather.current.temperature_2m) }}°</span>
+            <p>{{ weatherLabel(forecastWeather.current.weather_code) }}</p>
+          </div>
           <div class="current-weather__facts">
-            <div><span>Sensación</span><strong>{{ Math.round(forecastWeather.current.apparent_temperature) }} °C</strong></div>
-            <div><span>Humedad</span><strong>{{ forecastWeather.current.relative_humidity_2m }} %</strong></div>
-            <div><span>Viento</span><strong>{{ forecastWeather.current.wind_speed_10m }} km/h</strong></div>
-            <div><span>Ráfagas</span><strong>{{ forecastWeather.current.wind_gusts_10m }} km/h</strong></div>
-            <div><span>Precipitación</span><strong>{{ forecastWeather.current.precipitation }} mm</strong></div>
-            <div><span>Nubosidad</span><strong>{{ forecastWeather.current.cloud_cover }} %</strong></div>
-            <div><span>Presión</span><strong>{{ forecastWeather.current.surface_pressure }} hPa</strong></div>
-            <div><span>Hora local</span><strong>{{ displayTime(forecastWeather.current.time) }}</strong></div>
+            <div>
+              <span>Sensación</span
+              ><strong>{{ Math.round(forecastWeather.current.apparent_temperature) }} °C</strong>
+            </div>
+            <div>
+              <span>Humedad</span
+              ><strong>{{ forecastWeather.current.relative_humidity_2m }} %</strong>
+            </div>
+            <div>
+              <span>Viento</span><strong>{{ forecastWeather.current.wind_speed_10m }} km/h</strong>
+            </div>
+            <div>
+              <span>Ráfagas</span><strong>{{ forecastWeather.current.wind_gusts_10m }} km/h</strong>
+            </div>
+            <div>
+              <span>Precipitación</span
+              ><strong>{{ forecastWeather.current.precipitation }} mm</strong>
+            </div>
+            <div>
+              <span>Nubosidad</span><strong>{{ forecastWeather.current.cloud_cover }} %</strong>
+            </div>
+            <div>
+              <span>Presión</span
+              ><strong>{{ forecastWeather.current.surface_pressure }} hPa</strong>
+            </div>
+            <div>
+              <span>Hora local</span
+              ><strong>{{ displayTime(forecastWeather.current.time) }}</strong>
+            </div>
           </div>
         </section>
 
         <section class="forecast-section">
-          <div class="forecast-section__head"><h2>Pronóstico de 7 días</h2><p>{{ forecastWeather.timezone }}</p></div>
+          <div class="forecast-section__head">
+            <h2>Pronóstico de 7 días</h2>
+            <p>{{ forecastWeather.timezone }}</p>
+          </div>
           <div class="forecast-grid">
             @for (day of forecast(); track day.date) {
               <article class="forecast-card">
                 <h3>{{ displayDate(day.date) }}</h3>
                 <p class="forecast-card__condition">{{ weatherLabel(day.code) }}</p>
-                <p class="forecast-card__temperatures"><strong>{{ Math.round(day.max) }}°</strong><span>{{ Math.round(day.min) }}°</span></p>
+                <p class="forecast-card__temperatures">
+                  <strong>{{ Math.round(day.max) }}°</strong><span>{{ Math.round(day.min) }}°</span>
+                </p>
                 <dl>
-                  <div><dt>Precipitación</dt><dd>{{ day.precipitation }} %</dd></div>
-                  <div><dt>Viento máx.</dt><dd>{{ day.wind }} km/h</dd></div>
-                  <div><dt>Amanecer</dt><dd>{{ displayTime(day.sunrise) }}</dd></div>
-                  <div><dt>Atardecer</dt><dd>{{ displayTime(day.sunset) }}</dd></div>
+                  <div>
+                    <dt>Precipitación</dt>
+                    <dd>{{ day.precipitation }} %</dd>
+                  </div>
+                  <div>
+                    <dt>Viento máx.</dt>
+                    <dd>{{ day.wind }} km/h</dd>
+                  </div>
+                  <div>
+                    <dt>Amanecer</dt>
+                    <dd>{{ displayTime(day.sunrise) }}</dd>
+                  </div>
+                  <div>
+                    <dt>Atardecer</dt>
+                    <dd>{{ displayTime(day.sunset) }}</dd>
+                  </div>
                 </dl>
               </article>
             }
