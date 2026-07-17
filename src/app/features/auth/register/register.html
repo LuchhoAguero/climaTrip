@@ -3,16 +3,72 @@
     <span class="section-label">Cuenta ClimaTrip</span>
     <h1>Crear una cuenta</h1>
     <p>Guardá tus destinos y organizá tu próximo viaje.</p>
-    @if (!configured) { <p class="auth-card__notice">Firebase todavía no está configurado. Podés completar la configuración indicada en el README.</p> }
-    @if (error()) { <p class="auth-card__error" role="alert">{{ error() }}</p> }
+    @if (!configured) {
+      <p class="auth-card__notice">
+        Firebase todavía no está configurado. Podés completar la configuración indicada en el
+        README.
+      </p>
+    }
+    @if (error()) {
+      <p class="auth-card__error" role="alert">{{ error() }}</p>
+    }
     <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
-      <div class="field"><label for="register-name">Nombre visible</label><input id="register-name" autocomplete="name" formControlName="displayName">@if (form.controls.displayName.invalid && form.controls.displayName.touched) { <small>Ingresá al menos dos caracteres.</small> }</div>
-      <div class="field"><label for="register-email">Correo electrónico</label><input id="register-email" type="email" autocomplete="email" formControlName="email">@if (form.controls.email.invalid && form.controls.email.touched) { <small>Ingresá un correo válido.</small> }</div>
-      <div class="field"><label for="register-password">Contraseña</label><input id="register-password" type="password" autocomplete="new-password" formControlName="password">@if (form.controls.password.invalid && form.controls.password.touched) { <small>La contraseña debe tener al menos seis caracteres.</small> }</div>
-      <div class="field"><label for="register-confirm-password">Confirmar contraseña</label><input id="register-confirm-password" type="password" autocomplete="new-password" formControlName="confirmPassword">@if (form.hasError('passwordsMismatch') && form.controls.confirmPassword.touched) { <small>Las contraseñas no coinciden.</small> }</div>
-      <label class="terms"><input type="checkbox" formControlName="academicTerms"> Acepto usar esta aplicación con fines académicos.</label>
-      <button class="btn btn--primary auth-card__submit" type="submit" [disabled]="loading()">{{ loading() ? 'Creando cuenta...' : 'Crear cuenta' }}</button>
+      <div class="field">
+        <label for="register-name">Nombre visible</label
+        ><input id="register-name" autocomplete="name" formControlName="displayName" />
+        @if (form.controls.displayName.invalid && form.controls.displayName.touched) {
+          <small>Ingresá al menos dos caracteres.</small>
+        }
+      </div>
+      <div class="field">
+        <label for="register-email">Correo electrónico</label
+        ><input id="register-email" type="email" autocomplete="email" formControlName="email" />
+        @if (form.controls.email.invalid && form.controls.email.touched) {
+          <small>Ingresá un correo válido.</small>
+        }
+      </div>
+      <div class="field">
+        <label for="register-password">Contraseña</label
+        ><input
+          id="register-password"
+          type="password"
+          autocomplete="new-password"
+          formControlName="password"
+        />
+        @if (form.controls.password.invalid && form.controls.password.touched) {
+          <small>La contraseña debe tener al menos seis caracteres.</small>
+        }
+      </div>
+      <div class="field">
+        <label for="register-confirm-password">Confirmar contraseña</label
+        ><input
+          id="register-confirm-password"
+          type="password"
+          autocomplete="new-password"
+          formControlName="confirmPassword"
+        />
+        @if (form.hasError('passwordsMismatch') && form.controls.confirmPassword.touched) {
+          <small>Las contraseñas no coinciden.</small>
+        }
+      </div>
+      <label class="terms"
+        ><input type="checkbox" formControlName="academicTerms" /> Acepto usar esta aplicación con
+        fines académicos.</label
+      >
+      @if (form.controls.academicTerms.invalid && form.controls.academicTerms.touched) {
+        <small class="field__error" role="alert">Debés aceptar los términos para continuar.</small>
+      }
+      <button class="btn btn--primary auth-card__submit" type="submit" [disabled]="loading()">
+        {{ loading() ? 'Creando cuenta...' : 'Crear cuenta' }}
+      </button>
     </form>
-    <p class="auth-card__footer">¿Ya tenés una cuenta? <a routerLink="/login" [queryParams]="{ returnUrl: route.snapshot.queryParamMap.get('returnUrl') }">Iniciar sesión</a></p>
+    <p class="auth-card__footer">
+      ¿Ya tenés una cuenta?
+      <a
+        routerLink="/login"
+        [queryParams]="{ returnUrl: route.snapshot.queryParamMap.get('returnUrl') }"
+        >Iniciar sesión</a
+      >
+    </p>
   </div>
 </section>
