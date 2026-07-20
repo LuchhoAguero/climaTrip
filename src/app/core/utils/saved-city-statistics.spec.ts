@@ -13,6 +13,7 @@ function city(name: string, status: SavedCity['status'], plannedDate: string | n
     status,
     notes: '',
     plannedDate,
+    visitedDate: null,
     preferredTemperature: null,
   };
 }

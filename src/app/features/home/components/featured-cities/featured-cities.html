@@ -1,0 +1,86 @@
+<section class="featured-cities" aria-labelledby="featured-cities-title">
+  <div class="featured-cities__border-top" aria-hidden="true"></div>
+
+  <div class="container">
+    <header class="featured-cities__header">
+      <div>
+        <span class="section-label">Clima actual</span>
+        <h2 id="featured-cities-title" class="featured-cities__title">Ciudades destacadas</h2>
+        <p class="featured-cities__subtitle">
+          Condiciones actuales consultadas desde Open-Meteo.
+        </p>
+      </div>
+
+      <button
+        type="button"
+        class="btn btn--outline-primary btn--sm featured-cities__refresh"
+        [disabled]="loading()"
+        (click)="refreshWeather()"
+      >
+        {{ loading() ? 'Actualizando...' : 'Actualizar clima' }}
+      </button>
+    </header>
+
+    @if (error()) {
+      <p class="featured-cities__message" role="status">{{ error() }}</p>
+    }
+
+    @if (loading() && cities().length === 0) {
+      <div class="featured-cities__grid" aria-label="Cargando condiciones meteorológicas">
+        @for (item of [1, 2, 3, 4]; track item) {
+          <div class="city-card city-card--loading" aria-hidden="true">
+            <span class="city-card__skeleton city-card__skeleton--heading"></span>
+            <span class="city-card__skeleton city-card__skeleton--temperature"></span>
+            <span class="city-card__skeleton city-card__skeleton--details"></span>
+          </div>
+        }
+      </div>
+    } @else if (cities().length > 0) {
+      <div class="featured-cities__grid">
+        @for (item of cities(); track item.city.id) {
+          <article class="city-card">
+            <div class="city-card__header">
+              <div class="city-card__info">
+                <h3 class="city-card__name">{{ item.city.name }}</h3>
+                <p class="city-card__country">{{ item.city.country }}</p>
+              </div>
+              <span class="city-card__condition-icon" [attr.data-condition]="weatherCategory(item.weather.current.weather_code)" aria-hidden="true">
+                @switch (weatherCategory(item.weather.current.weather_code)) {
+                  @case ('clear') { &#9728; }
+                  @case ('cloudy') { &#9729; }
+                  @case ('rain') { &#9730; }
+                  @case ('snow') { &#10052; }
+                  @case ('storm') { &#9889; }
+                  @default { &#8779; }
+                }
+              </span>
+            </div>
+
+            <div class="city-card__temp-row">
+              <span class="city-card__temp" [class.city-card__temp--cold]="item.weather.current.temperature_2m < 0">
+                {{ item.weather.current.temperature_2m | number: '1.0-0' }}°
+              </span>
+              <span class="city-card__condition">{{ weatherLabel(item.weather.current.weather_code) }}</span>
+            </div>
+
+            <div class="city-card__details">
+              <span class="city-card__detail">Humedad {{ item.weather.current.relative_humidity_2m }}%</span>
+              <span class="city-card__detail">Viento {{ item.weather.current.wind_speed_10m | number: '1.0-0' }} km/h</span>
+            </div>
+
+            <div class="city-card__footer">
+              <span class="city-card__updated">Actualizado {{ localTime(item.weather.current.time) }} {{ item.weather.timezone_abbreviation }}</span>
+              <button type="button" class="city-card__link" (click)="viewWeather(item.city)">Ver detalle</button>
+            </div>
+          </article>
+        }
+      </div>
+    } @else {
+      <div class="featured-cities__empty">
+        <a routerLink="/buscar" class="btn btn--outline-primary">Buscar una ciudad</a>
+      </div>
+    }
+  </div>
+
+  <div class="featured-cities__border-bottom" aria-hidden="true"></div>
+</section>

@@ -16,6 +16,7 @@ export interface SavedCity {
   status: SavedCityStatus;
   notes: string;
   plannedDate: string | null;
+  visitedDate: string | null;
   preferredTemperature: number | null;
   createdAt?: Timestamp;
   updatedAt?: Timestamp;
@@ -23,7 +24,7 @@ export interface SavedCity {
 
 export type SavedCityFormValue = Pick<
   SavedCity,
-  'status' | 'notes' | 'plannedDate' | 'preferredTemperature'
+  'status' | 'notes' | 'plannedDate' | 'visitedDate' | 'preferredTemperature'
 >;
 
 export type SavedCityUpdate = Partial<SavedCityFormValue>;

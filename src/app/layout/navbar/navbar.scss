@@ -171,9 +171,13 @@
 
 @media (max-width: 768px) {
   .navbar {
+    position: sticky;
     flex-wrap: wrap;
     height: auto;
     padding: 0.75rem var(--section-pad-x);
+    background-color: var(--color-bg);
+    border-bottom-color: var(--color-border);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
 
     &__toggle {
       display: flex;

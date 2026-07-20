@@ -24,7 +24,9 @@ export function filterSavedCities(cities: SavedCity[], filters: SavedCityFilters
     if (filters.sort === 'name-asc') return a.name.localeCompare(b.name, 'es');
     if (filters.sort === 'name-desc') return b.name.localeCompare(a.name, 'es');
     if (filters.sort === 'planned-date') {
-      return (a.plannedDate ?? '9999-12-31').localeCompare(b.plannedDate ?? '9999-12-31');
+      const aDate = a.status === 'planned' ? a.plannedDate : null;
+      const bDate = b.status === 'planned' ? b.plannedDate : null;
+      return (aDate ?? '9999-12-31').localeCompare(bDate ?? '9999-12-31');
     }
 
     const aTime = a.createdAt?.toMillis() ?? 0;
