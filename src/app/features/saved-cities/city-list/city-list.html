@@ -84,10 +84,12 @@
               <span class="saved-city-card__code">{{ city.countryCode }}</span>
             </div>
             <dl>
-              <div>
-                <dt>Fecha planificada</dt>
-                <dd>{{ city.plannedDate || 'Sin definir' }}</dd>
-              </div>
+              @if (dateLabel(city); as label) {
+                <div>
+                  <dt>{{ label }}</dt>
+                  <dd>{{ statusDate(city) || 'Sin definir' }}</dd>
+                </div>
+              }
               <div>
                 <dt>Temperatura preferida</dt>
                 <dd>

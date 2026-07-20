@@ -148,6 +148,18 @@ export class CityList {
     return { interested: 'Me interesa', planned: 'Planificada', visited: 'Visitada' }[status];
   }
 
+  dateLabel(city: SavedCity): string | null {
+    if (city.status === 'planned') return 'Fecha planificada';
+    if (city.status === 'visited') return 'Fecha de visita';
+    return null;
+  }
+
+  statusDate(city: SavedCity): string | null {
+    if (city.status === 'planned') return city.plannedDate;
+    if (city.status === 'visited') return city.visitedDate;
+    return null;
+  }
+
   createdLabel(city: SavedCity): string {
     return city.createdAt
       ? new Intl.DateTimeFormat('es-AR', { dateStyle: 'medium' }).format(city.createdAt.toDate())

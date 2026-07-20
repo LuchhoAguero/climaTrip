@@ -8,13 +8,23 @@
     </select>
   </div>
 
-  <div class="field">
-    <label for="saved-date">Fecha planificada</label>
-    <input id="saved-date" type="date" formControlName="plannedDate">
-    @if (form.hasError('plannedDateRequired') && form.touched) {
-      <small class="field__error">Indicá una fecha para una ciudad planificada.</small>
-    }
-  </div>
+  @if (form.controls.status.value === 'planned') {
+    <div class="field">
+      <label for="saved-planned-date">Fecha planificada</label>
+      <input id="saved-planned-date" type="date" formControlName="plannedDate">
+      @if (form.hasError('plannedDateRequired') && form.touched) {
+        <small class="field__error">Indicá una fecha para una ciudad planificada.</small>
+      }
+    </div>
+  } @else if (form.controls.status.value === 'visited') {
+    <div class="field">
+      <label for="saved-visited-date">Fecha de visita</label>
+      <input id="saved-visited-date" type="date" formControlName="visitedDate">
+      @if (form.hasError('visitedDateRequired') && form.touched) {
+        <small class="field__error">Indicá la fecha en que visitaste la ciudad.</small>
+      }
+    </div>
+  }
 
   <div class="field">
     <label for="saved-temperature">Temperatura preferida (°C)</label>
