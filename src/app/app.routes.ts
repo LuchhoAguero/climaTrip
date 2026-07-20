@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { authGuard } from './core/guards/auth.guard';
 
 export const routes: Routes = [
   {
@@ -17,6 +18,11 @@ export const routes: Routes = [
       import('./features/weather/city-search/city-search').then(m => m.CitySearch),
   },
   {
+    path: 'clima/:cityId',
+    loadComponent: () =>
+      import('./features/weather/weather-detail/weather-detail').then(m => m.WeatherDetail),
+  },
+  {
     path: 'login',
     loadComponent: () =>
       import('./features/auth/login/login').then(m => m.Login),
@@ -28,11 +34,13 @@ export const routes: Routes = [
   },
   {
     path: 'mis-ciudades',
+    canActivate: [authGuard],
     loadComponent: () =>
       import('./features/saved-cities/city-list/city-list').then(m => m.CityList),
   },
   {
     path: 'estadisticas',
+    canActivate: [authGuard],
     loadComponent: () =>
       import('./features/statistics/statistics').then(m => m.Statistics),
   },

@@ -1,10 +1,13 @@
-<div class="page-container">
-  <div class="page-card">
-    <div class="page-card__icon">📊</div>
-    <h1 class="page-card__title">Estadísticas</h1>
-    <p class="page-card__description">
-      El panel de estadísticas se implementará próximamente.
-    </p>
-    <span class="page-card__badge">Próximamente</span>
+<section class="statistics">
+  <div class="container statistics__inner">
+    <header><span class="section-label">Resumen de viaje</span><h1>Estadísticas</h1><p>Una vista dinámica de los destinos que guardaste.</p></header>
+    @if (loading()) { <p class="state-message" aria-live="polite">Calculando estadísticas...</p> }
+    @else if (error()) { <p class="state-message state-message--error" role="alert">{{ error() }}</p> }
+    @else if (cities().length === 0) { <div class="empty-state"><h2>Todavía no hay datos para mostrar.</h2><p>Guardá una ciudad para empezar a ver tus estadísticas.</p><a routerLink="/buscar" class="btn btn--primary">Buscar ciudades</a></div> }
+    @else {
+      <div class="metrics"><article><span>Total</span><strong>{{ cities().length }}</strong><p>ciudades guardadas</p></article><article><span>Me interesa</span><strong>{{ statusCounts().interested }}</strong><p>destinos por explorar</p></article><article><span>Planificadas</span><strong>{{ statusCounts().planned }}</strong><p>viajes en agenda</p></article><article><span>Visitadas</span><strong>{{ statusCounts().visited }}</strong><p>destinos recorridos</p></article><article><span>Países</span><strong>{{ countryCount() }}</strong><p>países distintos</p></article><article><span>Temperatura ideal</span><strong>{{ averageTemperature() === null ? '—' : averageTemperature()!.toFixed(1) + ' °C' }}</strong><p>promedio preferido</p></article></div>
+      @if (nextPlanned(); as city) { <p class="next-city">Próxima ciudad planificada: <strong>{{ city.name }}</strong> · {{ city.plannedDate }}</p> }
+      <div class="charts"><article class="chart-card"><h2>Ciudades por estado</h2><div class="chart-card__canvas"><canvas #statusCanvas aria-label="Gráfico de ciudades por estado"></canvas></div></article><article class="chart-card"><h2>Ciudades por país</h2><div class="chart-card__canvas"><canvas #countryCanvas aria-label="Gráfico de ciudades por país"></canvas></div></article></div>
+    }
   </div>
-</div>
+</section>

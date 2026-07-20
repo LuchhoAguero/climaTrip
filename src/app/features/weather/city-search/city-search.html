@@ -1,10 +1,136 @@
-<div class="page-container">
-  <div class="page-card">
-    <div class="page-card__icon">🔍</div>
-    <h1 class="page-card__title">Buscar ciudades</h1>
-    <p class="page-card__description">
-      El buscador meteorológico se implementará en la siguiente etapa.
+<section class="city-search">
+  <div class="container city-search__inner">
+    <header class="city-search__header">
+      <span class="section-label">Open-Meteo</span>
+      <h1>Buscar ciudades</h1>
+      <p>
+        Encontrá un destino y consultá su clima actual con pronóstico para los próximos siete días.
+      </p>
+    </header>
+
+    <form class="search-box" [formGroup]="searchForm" (submit)="$event.preventDefault()">
+      <label class="visually-hidden" for="city-term">Ciudad a buscar</label>
+      <input
+        id="city-term"
+        type="search"
+        autocomplete="off"
+        formControlName="term"
+        placeholder="Ej.: Mendoza, Córdoba, Madrid..."
+      />
+      @if (searchForm.controls.term.value) {
+        <button
+          class="search-box__clear"
+          type="button"
+          (click)="clearSearch()"
+          aria-label="Limpiar búsqueda"
+        >
+          ×
+        </button>
+      }
+    </form>
+
+    <p class="city-search__live" aria-live="polite">
+      @if (loading()) {
+        Buscando ciudades...
+      } @else if (error()) {
+        {{ error() }}
+      } @else if (!searched()) {
+        Escribí al menos tres caracteres para comenzar.
+      } @else {
+        {{ filteredResults().length }} ciudades encontradas.
+      }
     </p>
-    <span class="page-card__badge">Próximamente</span>
+
+    @if (results().length > 0) {
+      <form class="filters" [formGroup]="filtersForm">
+        <div class="filters__field">
+          <label for="country-filter">País</label>
+          <select id="country-filter" formControlName="country">
+            <option value="">Todos los países</option>
+            @for (country of countries(); track country) {
+              <option [value]="country">{{ country }}</option>
+            }
+          </select>
+        </div>
+        <div class="filters__field">
+          <label for="region-filter">Provincia o estado</label>
+          <select id="region-filter" formControlName="admin1">
+            <option value="">Todas las regiones</option>
+            @for (region of regions(); track region) {
+              <option [value]="region">{{ region }}</option>
+            }
+          </select>
+        </div>
+        <div class="filters__field">
+          <label for="population-filter">Población mínima</label>
+          <input
+            id="population-filter"
+            type="number"
+            min="0"
+            formControlName="minPopulation"
+            placeholder="Sin mínimo"
+          />
+          @if (
+            filtersForm.controls.minPopulation.invalid && filtersForm.controls.minPopulation.touched
+          ) {
+            <small class="field__error" role="alert"
+              >La población mínima no puede ser negativa.</small
+            >
+          }
+        </div>
+        <div class="filters__field">
+          <label for="sort-filter">Ordenar</label>
+          <select id="sort-filter" formControlName="sort">
+            <option value="name-asc">Nombre A-Z</option>
+            <option value="name-desc">Nombre Z-A</option>
+            <option value="population-desc">Mayor población</option>
+            <option value="population-asc">Menor población</option>
+          </select>
+        </div>
+        <button class="btn btn--secondary btn--sm" type="button" (click)="clearFilters()">
+          Limpiar filtros
+        </button>
+      </form>
+    }
+
+    @if (error()) {
+      <p class="state-message state-message--error" role="alert">{{ error() }}</p>
+    } @else if (searched() && !loading() && results().length === 0) {
+      <p class="state-message">No encontramos ciudades para esa búsqueda.</p>
+    } @else if (results().length > 0 && filteredResults().length === 0) {
+      <p class="state-message">No hay resultados que coincidan con los filtros seleccionados.</p>
+    } @else if (filteredResults().length > 0) {
+      <div class="results" aria-live="polite">
+        @for (city of filteredResults(); track city.id) {
+          <article class="city-card">
+            <div>
+              <span class="city-card__code">{{ city.country_code }}</span>
+              <h2>{{ city.name }}</h2>
+              <p>
+                {{ city.country }}
+                @if (city.admin1) {
+                  · {{ city.admin1 }}
+                }
+              </p>
+            </div>
+            <dl class="city-card__meta">
+              <div>
+                <dt>Población</dt>
+                <dd>{{ populationLabel(city.population) }}</dd>
+              </div>
+              @if (city.timezone) {
+                <div>
+                  <dt>Zona horaria</dt>
+                  <dd>{{ city.timezone }}</dd>
+                </div>
+              }
+            </dl>
+            <button class="btn btn--primary" type="button" (click)="viewWeather(city)">
+              Ver clima
+            </button>
+          </article>
+        }
+      </div>
+    }
   </div>
-</div>
+</section>

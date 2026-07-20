@@ -1,2 +1,14 @@
-// Shared placeholder page styles live in styles.scss as .page-container and .page-card
-// Nothing component-specific needed
+.statistics { padding: 7.5rem 0 5rem; }
+.statistics header { margin-bottom: 2rem; }
+.statistics header h1 { font-size: clamp(2rem, 5vw, 3.3rem); }
+.statistics header p { margin-top: 0.55rem; }
+.state-message, .next-city { padding: 0.85rem 1rem; background: var(--color-bg-soft); border: 1px solid var(--color-border); border-radius: var(--radius-sm); }
+.state-message--error { color: var(--color-danger); }
+.empty-state { display: grid; gap: 0.8rem; max-width: 520px; padding: 2rem; background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); }
+.empty-state h2 { font-size: 1.4rem; }.empty-state .btn { justify-self: start; margin-top: .5rem; }
+.metrics { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.9rem; }
+.metrics article { padding: 1rem; background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-md); }
+.metrics span { color: var(--color-text-muted); font-size: .8rem; }.metrics strong { display: block; margin: .2rem 0; color: var(--color-primary); font-size: 1.75rem; }.metrics p { font-size: .78rem; }
+.next-city { margin: 1rem 0; }.charts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }.chart-card { min-width: 0; padding: 1.25rem; background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-md); }.chart-card h2 { margin-bottom: 1rem; font-size: 1.2rem; }.chart-card__canvas { position: relative; height: 300px; }
+@media (max-width: 700px) { .statistics { padding-top: 6.5rem; }.metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); }.charts { grid-template-columns: 1fr; } }
+@media (max-width: 360px) { .metrics { grid-template-columns: 1fr; } }

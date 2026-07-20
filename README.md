@@ -1,59 +1,98 @@
 # ClimaTrip
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.9.
+ClimaTrip es una SPA académica desarrollada con Angular para buscar ciudades, consultar clima actual y pronóstico, guardar destinos por usuario y visualizar estadísticas de viaje.
 
-## Development server
+## Requisitos
 
-To start a local development server, run:
+- Node.js 20.19 o superior, 22.12 o superior, o 24.x.
+- npm 11.x.
+- Proyecto Firebase pendiente de creación manual.
 
-```bash
-ng serve
-```
+Versiones validadas en esta estabilización:
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+- Angular CLI / build 20.3.x.
+- Angular 20.3.x.
+- AngularFire 20.0.x.
+- Firebase Web SDK 11.10.x.
+- RxJS 7.8.x.
+- TypeScript 5.9.x.
+- Vitest 3.2.x.
+- Chart.js 4.5.x.
 
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
+## Instalación
 
 ```bash
-ng build
+npm ci
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+## Desarrollo
 
 ```bash
-ng test
+npm start
 ```
 
-## Running end-to-end tests
+La aplicación queda disponible en `http://localhost:4200/`.
 
-For end-to-end (e2e) testing, run:
+## Pruebas y build
 
 ```bash
-ng e2e
+npm run test:ci
+npm run build:prod
+npm run check
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+`npm run check` ejecuta las pruebas unitarias y luego el build de producción.
 
-## Additional Resources
+## Firebase pendiente
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+Firebase está preparado, pero no conectado. Los archivos que deben recibir la configuración web real son:
+
+- `src/environments/environment.development.ts`
+- `src/environments/environment.ts`
+
+Ambos mantienen placeholders `REEMPLAZAR`. No subas cuentas de servicio, claves privadas, archivos `.env` con secretos ni credenciales administrativas. La API key web de Firebase solo debe copiarse desde tu app web real cuando crees el proyecto en Firebase Console.
+
+Sin Firebase configurado, las rutas públicas de búsqueda y clima siguen funcionando. Las funcionalidades de autenticación y ciudades guardadas muestran un mensaje claro indicando que falta completar la configuración.
+
+## Funciones principales
+
+- Búsqueda de ciudades mediante Open-Meteo Geocoding.
+- Filtros por país, región y población mínima.
+- Ordenamiento por nombre y población.
+- Clima actual y pronóstico de siete días mediante Open-Meteo Forecast.
+- Registro, login y logout mediante Firebase Authentication.
+- Rutas privadas con Angular Guards.
+- CRUD de ciudades guardadas por usuario en Cloud Firestore.
+- Estadísticas con Chart.js.
+
+## Estructura
+
+```text
+src/app/core/          modelos, guards, servicios y utilidades puras
+src/app/features/      pantallas lazy de búsqueda, clima, auth, guardados y estadísticas
+src/app/shared/        formulario reutilizable para ciudades guardadas
+src/environments/      placeholders de Firebase
+docs/                  plan de pruebas y material de informe
+public/                assets públicos
+```
+
+## Hosting
+
+`firebase.json` apunta al build real generado por Angular:
+
+```text
+dist/climaTrip/browser
+```
+
+Incluye rewrite SPA hacia `/index.html`. No ejecutes `firebase login`, `firebase use` ni `firebase deploy` hasta haber creado el proyecto Firebase manualmente y verificado la aplicación.
+
+## Próximo paso manual
+
+1. Crear el proyecto en Firebase Console.
+2. Registrar una aplicación web.
+3. Copiar el objeto `firebaseConfig` real en los environments.
+4. Activar Authentication con correo y contraseña.
+5. Crear Cloud Firestore en modo producción.
+6. Revisar `firestore.rules`.
+7. Probar registro, login y CRUD reales localmente.
+8. Recién después, configurar Firebase Hosting y desplegar manualmente.

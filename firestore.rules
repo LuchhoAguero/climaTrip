@@ -1,0 +1,16 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /users/{userId}/savedCities/{documentId} {
+      // Each user can access only their own saved destinations.
+      allow read, delete: if request.auth != null && request.auth.uid == userId;
+      allow create: if request.auth != null
+        && request.auth.uid == userId
+        && request.resource.data.userId == userId;
+      allow update: if request.auth != null
+        && request.auth.uid == userId
+        && request.resource.data.userId == userId;
+    }
+  }
+}

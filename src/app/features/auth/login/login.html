@@ -1,10 +1,15 @@
-<div class="page-container">
-  <div class="page-card">
-    <div class="page-card__icon">🔐</div>
-    <h1 class="page-card__title">Iniciar sesión</h1>
-    <p class="page-card__description">
-      El formulario de autenticación se implementará próximamente.
-    </p>
-    <span class="page-card__badge">Próximamente</span>
+<section class="auth-page">
+  <div class="auth-card">
+    <span class="section-label">Cuenta ClimaTrip</span>
+    <h1>Iniciar sesión</h1>
+    <p>Accedé a tus ciudades guardadas y tus estadísticas de viaje.</p>
+    @if (!configured) { <p class="auth-card__notice">Firebase todavía no está configurado. Podés completar la configuración indicada en el README.</p> }
+    @if (error()) { <p class="auth-card__error" role="alert">{{ error() }}</p> }
+    <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
+      <div class="field"><label for="login-email">Correo electrónico</label><input id="login-email" type="email" autocomplete="email" formControlName="email">@if (form.controls.email.invalid && form.controls.email.touched) { <small>Ingresá un correo válido.</small> }</div>
+      <div class="field"><label for="login-password">Contraseña</label><div class="password-field"><input id="login-password" [type]="passwordVisible() ? 'text' : 'password'" autocomplete="current-password" formControlName="password"><button type="button" (click)="togglePassword()" [attr.aria-label]="passwordVisible() ? 'Ocultar contraseña' : 'Mostrar contraseña'">{{ passwordVisible() ? 'Ocultar' : 'Mostrar' }}</button></div>@if (form.controls.password.invalid && form.controls.password.touched) { <small>La contraseña es obligatoria.</small> }</div>
+      <button class="btn btn--primary auth-card__submit" type="submit" [disabled]="loading()">{{ loading() ? 'Ingresando...' : 'Iniciar sesión' }}</button>
+    </form>
+    <p class="auth-card__footer">¿Todavía no tenés cuenta? <a routerLink="/registro" [queryParams]="{ returnUrl: route.snapshot.queryParamMap.get('returnUrl') }">Crear una cuenta</a></p>
   </div>
-</div>
+</section>

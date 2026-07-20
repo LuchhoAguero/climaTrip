@@ -1,0 +1,55 @@
+<footer class="footer" role="contentinfo">
+  <div class="container footer__inner">
+
+    <!-- Columna marca -->
+    <div class="footer__brand-col">
+      <a class="footer__logo" routerLink="/inicio" aria-label="ClimaTrip – Inicio">
+        <span class="footer__logo-icon" aria-hidden="true">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"
+               width="18" height="18" aria-hidden="true">
+            <path d="M12 2v2"/>
+            <path d="m4.93 4.93 1.41 1.41"/>
+            <path d="M20 12h2"/>
+            <path d="m19.07 4.93-1.41 1.41"/>
+            <path d="M15.947 12.65a4 4 0 0 0-5.925-4.128"/>
+            <path d="M13 22H7a5 5 0 1 1 4.9-6H13a3 3 0 0 1 0 6z"/>
+          </svg>
+        </span>
+        <span class="footer__logo-text">Clima<span class="footer__logo-highlight">Trip</span></span>
+      </a>
+      <p class="footer__tagline">
+        Consultá el clima de tu próximo destino antes de salir.
+      </p>
+    </div>
+
+    <!-- Columna de navegación -->
+    <nav class="footer__nav-col" aria-label="Navegación del footer">
+      <h3 class="footer__nav-title">Navegación</h3>
+      <ul class="footer__nav-list">
+        <li><a routerLink="/inicio" class="footer__nav-link">Inicio</a></li>
+        <li><a routerLink="/buscar" class="footer__nav-link">Buscar ciudades</a></li>
+        @if (user()) {
+          <li><a routerLink="/mis-ciudades" class="footer__nav-link">Mis ciudades</a></li>
+          <li><a routerLink="/estadisticas" class="footer__nav-link">Estadísticas</a></li>
+        } @else {
+          <li><a routerLink="/login" class="footer__nav-link">Iniciar sesión</a></li>
+          <li><a routerLink="/registro" class="footer__nav-link">Crear cuenta</a></li>
+        }
+      </ul>
+    </nav>
+
+  </div>
+
+  <!-- Barra inferior -->
+  <div class="footer__bottom">
+    <div class="container footer__bottom-inner">
+      <p class="footer__copyright">
+        © {{ year }} ClimaTrip
+      </p>
+      <p class="footer__academic">
+        Proyecto académico — Programación V
+      </p>
+    </div>
+  </div>
+</footer>

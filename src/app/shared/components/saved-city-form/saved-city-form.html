@@ -1,0 +1,49 @@
+<form class="saved-city-form" [formGroup]="form" (ngSubmit)="submit()">
+  <div class="field">
+    <label for="saved-status">Estado</label>
+    <select id="saved-status" formControlName="status">
+      <option value="interested">Me interesa</option>
+      <option value="planned">Planificada</option>
+      <option value="visited">Visitada</option>
+    </select>
+  </div>
+
+  @if (form.controls.status.value === 'planned') {
+    <div class="field">
+      <label for="saved-planned-date">Fecha planificada</label>
+      <input id="saved-planned-date" type="date" formControlName="plannedDate">
+      @if (form.hasError('plannedDateRequired') && form.touched) {
+        <small class="field__error">Indicá una fecha para una ciudad planificada.</small>
+      }
+    </div>
+  } @else if (form.controls.status.value === 'visited') {
+    <div class="field">
+      <label for="saved-visited-date">Fecha de visita</label>
+      <input id="saved-visited-date" type="date" formControlName="visitedDate">
+      @if (form.hasError('visitedDateRequired') && form.touched) {
+        <small class="field__error">Indicá la fecha en que visitaste la ciudad.</small>
+      }
+    </div>
+  }
+
+  <div class="field">
+    <label for="saved-temperature">Temperatura preferida (°C)</label>
+    <input id="saved-temperature" type="number" min="-60" max="60" formControlName="preferredTemperature">
+    @if (form.controls.preferredTemperature.invalid && form.controls.preferredTemperature.touched) {
+      <small class="field__error">Ingresá una temperatura entre -60 y 60.</small>
+    }
+  </div>
+
+  <div class="field">
+    <label for="saved-notes">Notas</label>
+    <textarea id="saved-notes" rows="4" maxlength="500" formControlName="notes"></textarea>
+    <small class="field__counter">{{ form.controls.notes.value.length }} / 500</small>
+  </div>
+
+  <div class="saved-city-form__actions">
+    <button class="btn btn--secondary" type="button" (click)="cancel.emit()" [disabled]="submitting">Cancelar</button>
+    <button class="btn btn--primary" type="submit" [disabled]="submitting">
+      {{ submitting ? 'Guardando...' : 'Guardar ciudad' }}
+    </button>
+  </div>
+</form>

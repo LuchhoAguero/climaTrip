@@ -1,0 +1,37 @@
+.saved-city-form {
+  display: grid;
+  gap: 1rem;
+
+  &__actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.75rem;
+    margin-top: 0.5rem;
+
+    @media (max-width: 420px) {
+      flex-direction: column-reverse;
+
+      .btn { width: 100%; }
+    }
+  }
+}
+
+.field {
+  display: grid;
+  gap: 0.4rem;
+
+  label { color: var(--color-text); font-size: 0.9rem; font-weight: 600; }
+
+  input, select, textarea {
+    width: 100%;
+    padding: 0.7rem 0.8rem;
+    color: var(--color-text);
+    background: var(--color-bg-soft);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+  }
+
+  textarea { resize: vertical; }
+  &__error { color: var(--color-danger); }
+  &__counter { color: var(--color-text-muted); text-align: right; }
+}

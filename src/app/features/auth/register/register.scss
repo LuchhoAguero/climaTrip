@@ -1,2 +1,4 @@
-// Shared placeholder page styles live in styles.scss as .page-container and .page-card
-// Nothing component-specific needed
+@use '../login/login.scss';
+
+.terms { display: flex; align-items: flex-start; gap: 0.5rem; color: var(--color-text-muted); font-size: 0.83rem; }
+.terms input { width: 1rem; height: 1rem; margin-top: 0.15rem; accent-color: var(--color-primary); }
