@@ -1,5 +1,5 @@
 export const environment = {
-  production: false,
+  production: true,
   firebase: {
     apiKey: 'AIzaSyAKVcL7LmmFAS2UaTbvVs4Jb33IlrWRf84',
     authDomain: 'climatrip-final.firebaseapp.com',
